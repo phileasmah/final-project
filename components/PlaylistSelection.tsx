@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PlaylistOverview from "./PlaylistOverview";
 
-const CurrentPlaylist = ({ session }) => {
+const PlaylistSelection = ({ session }) => {
   const [playlists, setPlaylists] = useState(null);
   const [playlistInfo, setPlaylistInfo] = useState(null)
   useEffect(() => {
@@ -51,4 +51,4 @@ const CurrentPlaylist = ({ session }) => {
   );
 };
 
-export default CurrentPlaylist;
+export default PlaylistSelection;

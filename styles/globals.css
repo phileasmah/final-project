@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #202124;
+  color: #BDC1C6;
+}
+
+*,*:hover, *:active, button:focus{
+  outline:none;
+}
+
+b {
+  color: #DDDEE1;
+}
+
+#nprogress .bar {
+  background: #94B6F2;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px
+}
+
+::-webkit-scrollbar-thumb {
+  background:#909090;
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:#606060;
+}

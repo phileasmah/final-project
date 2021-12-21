@@ -1,25 +1,45 @@
 import { Provider } from "next-auth/client";
-import { useRouter } from "next/dist/client/router";
+import { AppProps } from "next/app";
+import Router, { useRouter } from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 import { useEffect, useMemo, useState } from "react";
-import "tailwindcss/tailwind.css";
 import { ApiContext } from "../components/Contexts/ApiContext";
+import "../styles/globals.css";
+import { ClientToken } from "../types/ClientToken";
 
-function MyApp({ Component, pageProps }) {
+interface Res extends Response {
+  data: ClientToken;
+}
+
+NProgress.configure({
+  minimum: 0.2,
+  easing: "ease",
+  speed: 400,
+  showSpinner: false,
+});
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+
+
+function MyApp({ Component, pageProps }: AppProps) {
   const axios = require("axios");
   useEffect(() => {
     const getToken = async () => {
       const res = await axios({
         url: "api/connect",
         baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-      });
+      }) as Res;
       setClientToken(res.data);
       setFinish(true);
       setTimeout(getToken, 3500000);
     };
     getToken();
-  }, []);
+  }, [axios]);
 
-  const [clientToken, setClientToken] = useState(null);
+  const [clientToken, setClientToken] = useState<ClientToken | null>(null);
   const [finish, setFinish] = useState(false);
   const router = useRouter();
 
@@ -31,7 +51,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ApiContext.Provider value={providerToken}>
       <Provider session={pageProps.session}>
-        <Component {...pageProps} key={router.asPath} />
+        <Component {...pageProps} key={router.asPath}/>
       </Provider>
     </ApiContext.Provider>
   );

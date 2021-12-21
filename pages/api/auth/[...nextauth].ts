@@ -1,8 +1,10 @@
 
-import NextAuth from "next-auth";
+import NextAuth, { Account, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import Providers from "next-auth/providers";
 
-async function refreshAccessToken(token) {
+
+async function refreshAccessToken(token: JWT) {
   try {
     const url =
       "https://accounts.spotify.com/api/token?" +
@@ -62,14 +64,14 @@ export default NextAuth({
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
-    async jwt(token, user, account) {
+    async jwt(token: JWT, user: User, account: Account) {
       if (account && user) {
         token.id = account.id;
         token.accessToken = account.accessToken;
         if (typeof account.refreshToken === "string") {
           token.refreshToken = account.refreshToken;
         }
-        token.accessTokenExpires = Date.now() + (account.expires_in) * 1000;
+        token.accessTokenExpires = Date.now() + (account.expires_in as number) * 1000;
         return token;
       }
 
@@ -80,7 +82,7 @@ export default NextAuth({
       // Access token has expired, try to update it
       return refreshAccessToken(token);
     },
-    async session(session, user) {
+    async session(session, user: JWT) {
       session.user = user;
       return session;
     },
