@@ -1,7 +1,7 @@
 import { signIn, useSession } from "next-auth/client";
 import Head from "next/head";
-import CurrentPlaylist from "../components/CurrentPlaylist";
 import NavBar from "../components/NavBar/NavBar";
+import UserPlaylists from "../components/UserPlaylists";
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -13,10 +13,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        {session || loading ? (
+        {session ? (
           <div>
             <NavBar />
-            <CurrentPlaylist session={session} />
+            <UserPlaylists session={session} />
           </div>
         ) : (
           <div className="flex flex-col justify-center align-middle h-screen">
