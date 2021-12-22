@@ -30,6 +30,7 @@ module.exports = {
         option: "#E8EAED",
         lightblue: "#8AB4F8",
         lightblue2: "#93BAF9",
+        lightblue3: "#A1C3F9",
         lightgrey: "#303134",
         lightgrey2: "#5F6368",
         lightgrey3: "#373737",
