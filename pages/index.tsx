@@ -1,6 +1,5 @@
 import { signIn, useSession } from "next-auth/client";
 import Head from "next/head";
-import NavBar from "../components/NavBar/NavBar";
 import UserPlaylists from "../components/UserPlaylists";
 
 export default function Home() {
@@ -15,7 +14,6 @@ export default function Home() {
       <div>
         {session ? (
           <div>
-            <NavBar />
             <UserPlaylists session={session} />
           </div>
         ) : (

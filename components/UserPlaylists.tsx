@@ -28,8 +28,8 @@ const UserPlaylists: React.FC<Props> = ({ session }) => {
 
   return (
     <div className="flex flex-col w-10/12 mx-auto">
-      <h1 className="text-text text-xl font-medium text-center">Select Playlist for Analysis</h1>
-      <div className="flex gap-x-6 flex-row justify-between flex-wrap">
+      <h1 className="text-text text-4xl font-medium text-center mt-6 mb-2">Select Playlist for Analysis</h1>
+      <div className="max-w-7xl grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center mx-auto gap-x-20">
         {playlists &&
           playlists.map((playlist) => (
             <Link key={playlist.id} href={`/${playlist.id}`}>
@@ -43,7 +43,7 @@ const UserPlaylists: React.FC<Props> = ({ session }) => {
                     className="rounded-md"
                   />
                   <div className="w-64 md:w-52 2xl:w-56 3xl:w-64">
-                    <span className="font-semibold text-text text-lg">{playlist.name}</span>
+                    <span className="font-semibold text-lg">{playlist.name}</span>
                     <div className="whitespace-nowrap overflow-hidden overflow-ellipsis">
                       {playlist.owner.display_name}
                     </div>

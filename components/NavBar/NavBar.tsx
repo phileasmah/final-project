@@ -19,7 +19,7 @@ const NavBar = () => {
     document.addEventListener("scroll", handleScroll);
   }, []);
   return (
-    <nav className={`sticky top-0 bg-darkgrey z-10 ${!scroll && "border-lightgrey2 border-b-2"}`}>
+    <nav className={`${!session && "hidden"} sticky top-0 bg-darkgrey z-10 ${!scroll && "border-lightgrey2 border-b-2"}`}>
       <div className={`flex h-16 items-center ${scroll && "shadow-custom"} px-6 lg:px-10`}>
         <Link href={{ pathname: "/" }}>
           <a

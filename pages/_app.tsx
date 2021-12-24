@@ -5,6 +5,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { useEffect, useMemo, useState } from "react";
 import { ApiContext } from "../components/Contexts/ApiContext";
+import NavBar from "../components/NavBar/NavBar";
 import "../styles/globals.css";
 import { ClientToken } from "../types/ClientToken";
 
@@ -23,15 +24,14 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-
 function MyApp({ Component, pageProps }: AppProps) {
   const axios = require("axios");
   useEffect(() => {
     const getToken = async () => {
-      const res = await axios({
+      const res = (await axios({
         url: "api/connect",
         baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-      }) as Res;
+      })) as Res;
       setClientToken(res.data);
       setFinish(true);
       setTimeout(getToken, 3500000);
@@ -51,7 +51,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApiContext.Provider value={providerToken}>
       <Provider session={pageProps.session}>
-        <Component {...pageProps} key={router.asPath}/>
+        <NavBar />
+        <Component {...pageProps} key={router.asPath} />
       </Provider>
     </ApiContext.Provider>
   );
