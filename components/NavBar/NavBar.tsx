@@ -20,7 +20,6 @@ const NavBar = () => {
 
     document.addEventListener("scroll", handleScroll);
   }, []);
-  console.log(router.asPath);
   return (
     <nav
       className={`${!session && router.asPath === "/" && "hidden"} sticky top-0 bg-darkgrey z-10 ${
