@@ -37,6 +37,9 @@ module.exports = {
         darkgrey: "#202124",
         darkgrey2: "#232323",
         darkgrey3: "#313235",
+        spotify1: "#1AA64B",
+        spotify2: "#1DB954",
+        spotify3: "#33C065"
       },
       boxShadow: {
         custom:
@@ -65,7 +68,11 @@ module.exports = {
         "7/10": "69.3%",
         "84%" : "84.8%",
         "48%": "48%",
+        "pic": "260px"
       },
+      height: {
+        "pic": "260px"
+      }
     },
   },
   variants: {

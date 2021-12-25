@@ -22,7 +22,7 @@ export default function Home() {
             <div className="mx-auto mt-4">
               <button
                 onClick={() => signIn("spotify")}
-                className="px-2.5 md:px-4 py-2 font-medium bg-lightblue rounded text-darkgrey duration-200 hover:bg-lightblue2 focus:bg-lightblue3 hover:rounded-2xl focus:rounded-2xl"
+                className="px-2.5 md:px-4 py-2 font-medium bg-spotify1 rounded text-darkgrey duration-200 hover:bg-spotify2 focus:bg-spotify3 hover:rounded-2xl focus:rounded-2xl"
               >
                 Sign in with <b className="text-darkgrey">Spotify</b>
               </button>

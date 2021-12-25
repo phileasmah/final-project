@@ -6,7 +6,7 @@ export interface UserAlbum {
   external_urls: ExternalUrls;
   href: string;
   id: string;
-  images: [ImagesEntity];
+  images: [ImagesEntity] | [];
   name: string;
   owner: Owner;
   primary_color?: null;
