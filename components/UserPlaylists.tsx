@@ -10,8 +10,10 @@ interface Props {
 
 const UserPlaylists: React.FC<Props> = ({ session }) => {
   const [playlists, setPlaylists] = useState<UserAlbums | null>(null);
+  const [prevSession, setPrevSession] = useState<null | string>(null);
 
   useEffect(() => {
+    if (prevSession && session && prevSession === session.user.accessToken) return
     const getPlaylists = async () => {
       if (!session) {
         return;
@@ -20,11 +22,13 @@ const UserPlaylists: React.FC<Props> = ({ session }) => {
       const response = await axios.get("https://api.spotify.com/v1/me/playlists", {
         headers: { Authorization: "Bearer " + session.user.accessToken },
       });
-      console.log(response.data.items);
       setPlaylists(response.data.items);
     };
 
     getPlaylists();
+    if (session) {
+      setPrevSession(session.user.accessToken)
+    }
   }, [session]);
 
   return (

@@ -9,7 +9,7 @@ interface Props {
 
 const PlaylistOverview: React.FC<Props> = ({ playlistInfo, audioFeatures }) => {
   const [addDate, setAddDate] = useState(null);
-  console.log(audioFeatures, playlistInfo)
+  console.log(playlistInfo, audioFeatures)
   useEffect(() => {
     if (!playlistInfo) {
       return;
@@ -26,7 +26,8 @@ const PlaylistOverview: React.FC<Props> = ({ playlistInfo, audioFeatures }) => {
       }
     }
     setAddDate(tmpDict);
-  }, [playlistInfo]);
+    console.log(audioFeatures)
+  }, [playlistInfo, audioFeatures]);
 
   return (
     <div>

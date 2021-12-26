@@ -16,9 +16,13 @@ const PlaylistProfile: React.FC = () => {
   const [unauthorized, setUnauthorized] = useState<boolean>(false);
   const { clientToken, finish } = useContext(ApiContext) as ApiContextProvider;
   const [session, loading] = useSession();
+  const [prevSession, setPrevSession] = useState<null | string>(null);
 
   useEffect(() => {
-    if (loading || !finish) return;
+    if (loading || !finish || (prevSession && session && prevSession === session.user.accessToken))
+      return;
+    setPlaylistInfo([])
+    setAudioFeatures([])
     const getPlaylistRec = async (url: string) => {
       const response = await axios.get<Playlist>(url, {
         headers: {
@@ -28,14 +32,14 @@ const PlaylistProfile: React.FC = () => {
       });
       if (response.data.items) {
         setPlaylistInfo((p) => p.concat(response.data.items));
-        getAudioFeatures(response.data.items, false);
+        await getAudioFeatures(response.data.items);
         if (response.data.next) {
           getPlaylistRec(response.data.next);
         }
       }
     };
 
-    const getAudioFeatures = async (tracks: ItemsEntity[], initial: boolean) => {
+    const getAudioFeatures = async (tracks: ItemsEntity[]) => {
       const ids = tracks.map((e) => e.track.id).join(",");
       const response = await axios.get<AudioFeatures>(
         `https://api.spotify.com/v1/audio-features?ids=${ids}`,
@@ -46,11 +50,8 @@ const PlaylistProfile: React.FC = () => {
           },
         }
       );
-      if (initial) {
-        setAudioFeatures(response.data.audio_features);
-      } else {
-        setAudioFeatures((p) => p.concat(response.data.audio_features));
-      }
+
+      setAudioFeatures((p) => p.concat(response.data.audio_features));
     };
 
     const getPlaylist = async (id: string) => {
@@ -65,8 +66,8 @@ const PlaylistProfile: React.FC = () => {
           }
         );
         if (response.data.items) {
-          setPlaylistInfo(response.data.items);
-          getAudioFeatures(response.data.items, true);
+          setPlaylistInfo((p) => p.concat(response.data.items));
+          await getAudioFeatures(response.data.items);
           if (response.data.next) {
             getPlaylistRec(response.data.next);
           }
@@ -77,13 +78,16 @@ const PlaylistProfile: React.FC = () => {
     };
 
     getPlaylist(router.query.playlistid as string);
+    if (session) {
+      setPrevSession(session.user.accessToken);
+    }
   }, [router, loading, session, clientToken, finish]);
 
   return (
     <div>
       {unauthorized ? (
         <div>You need permission to access this album</div>
-      ) : playlistInfo.length ? (
+      ) : audioFeatures.length ? (
         <PlaylistOverview playlistInfo={playlistInfo} audioFeatures={audioFeatures} />
       ) : (
         <div> This playlist is empty</div>
