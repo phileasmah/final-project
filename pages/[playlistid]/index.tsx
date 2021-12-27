@@ -7,12 +7,13 @@ import { ApiContext } from "../../components/Contexts/ApiContext";
 import PlaylistAnalysis from "../../components/PlaylistAnalysis";
 import { ApiContextProvider } from "../../types/ApiContextProvider";
 import { AudioFeature, AudioFeatures } from "../../types/AudioFeatues";
-import { ItemsEntity, Playlist } from "../../types/PlaylistType";
+import { ItemsEntity, Playlist, Tracks } from "../../types/PlaylistType";
 
 const PlaylistProfile: React.FC = () => {
   const router = useRouter();
-  const [playlistInfo, setPlaylistInfo] = useState<ItemsEntity[]>([]);
+  const [trackInfo, setTrackInfo] = useState<ItemsEntity[]>([]);
   const [audioFeatures, setAudioFeatures] = useState<AudioFeature[]>([]);
+  const [playlistInfo, setPlaylistInfo] = useState<Playlist>()
   const [unauthorized, setUnauthorized] = useState<boolean>(false);
   const { clientToken, finish } = useContext(ApiContext) as ApiContextProvider;
   const [session, loading] = useSession();
@@ -23,17 +24,17 @@ const PlaylistProfile: React.FC = () => {
     if (loading || !finish || (prevSession && session && prevSession === session.user.accessToken))
       return;
     setIsLoading(true);
-    setPlaylistInfo([]);
+    setTrackInfo([]);
     setAudioFeatures([]);
     const getPlaylistRec = async (url: string) => {
-      const response = await axios.get<Playlist>(url, {
+      const response = await axios.get<Tracks>(url, {
         headers: {
           Authorization:
             "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
         },
       });
       if (response.data.items) {
-        setPlaylistInfo((p) => p.concat(response.data.items));
+        setTrackInfo((p) => p.concat(response.data.items));
         await getAudioFeatures(response.data.items);
         if (response.data.next) {
           getPlaylistRec(response.data.next);
@@ -61,7 +62,7 @@ const PlaylistProfile: React.FC = () => {
     const getPlaylist = async (id: string) => {
       try {
         const response = await axios.get<Playlist>(
-          `https://api.spotify.com/v1/playlists/${id}/tracks`,
+          `https://api.spotify.com/v1/playlists/${id}`,
           {
             headers: {
               Authorization:
@@ -69,11 +70,12 @@ const PlaylistProfile: React.FC = () => {
             },
           }
         );
-        if (response.data.items) {
-          setPlaylistInfo((p) => p.concat(response.data.items));
-          await getAudioFeatures(response.data.items);
-          if (response.data.next) {
-            getPlaylistRec(response.data.next);
+        if (response.data.tracks.items) {
+          setTrackInfo((p) => p.concat(response.data.tracks.items));
+          setPlaylistInfo(response.data)
+          await getAudioFeatures(response.data.tracks.items);
+          if (response.data.tracks.next) {
+            getPlaylistRec(response.data.tracks.next);
           } else {
             setIsLoading(false);
           }
@@ -96,7 +98,7 @@ const PlaylistProfile: React.FC = () => {
       ) : isLoading ? (
         <div>loading</div>
       ) : audioFeatures.length ? (
-        <PlaylistAnalysis playlistInfo={playlistInfo} audioFeatures={audioFeatures} />
+        <PlaylistAnalysis trackInfo={trackInfo} audioFeatures={audioFeatures} playlistInfo={playlistInfo}/>
       ) : (
         <div> This playlist is empty</div>
       )}

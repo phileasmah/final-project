@@ -1,8 +1,45 @@
 export interface Playlist {
+  collaborative: boolean;
+  description: string;
+  external_urls: ExternalUrls;
+  followers: Followers;
+  href: string;
+  id: string;
+  images?: (ImagesEntity)[] | null;
+  name: string;
+  owner: Owner;
+  primary_color?: null;
+  public: boolean;
+  snapshot_id: string;
+  tracks: Tracks;
+  type: string;
+  uri: string;
+}
+export interface ExternalUrls {
+  spotify: string;
+}
+export interface Followers {
+  href?: null;
+  total: number;
+}
+export interface ImagesEntity {
+  height: number;
+  url: string;
+  width: number;
+}
+export interface Owner {
+  display_name: string;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  type: string;
+  uri: string;
+}
+export interface Tracks {
   href: string;
   items: (ItemsEntity)[];
   limit: number;
-  next: string;
+  next: string | null;
   offset: number;
   previous?: null;
   total: number;
@@ -21,9 +58,6 @@ export interface AddedBy {
   id: string;
   type: string;
   uri: string;
-}
-export interface ExternalUrls {
-  spotify: string;
 }
 export interface Track {
   album: Album;
@@ -69,13 +103,8 @@ export interface ArtistsEntity {
   type: string;
   uri: string;
 }
-export interface ImagesEntity {
-  height: number;
-  url: string;
-  width: number;
-}
 export interface ExternalIds {
-  isrc: string;
+  isrc?: string | null;
 }
 export interface VideoThumbnail {
   url?: null;
