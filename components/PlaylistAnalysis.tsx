@@ -9,36 +9,45 @@ interface Props {
   playlistInfo: Playlist;
 }
 
+interface DateGroup {
+  [year: number]: { [month: number]: ItemsEntity[] };
+}
+
+interface ArtistCount {
+  [name: string]: number;
+}
+
 const PlaylistAnalysis: React.FC<Props> = ({ trackInfo, audioFeatures, playlistInfo }) => {
-  const [addDate, setAddDate] = useState(null);
-  const [topArtists, setTopArtists] = useState(null);
-  const [artists, setArtists] = useState(null);
+  const [addDate, setAddDate] = useState<DateGroup>();
+  const [topArtists, setTopArtists] = useState<string[]>();
+  const [artists, setArtists] = useState<ArtistCount>();
 
   useEffect(() => {
     if (!trackInfo) {
       return;
     }
-
-    const tmpDict = {};
-    const artists = {};
-
+    const tmpDict: DateGroup = {};
+    const tmpArtists: ArtistCount = {};
     for (let x of trackInfo) {
-      const tmp = x.added_at.slice(0, 7);
       if (x.track.id === null) continue;
-      if (tmp in tmpDict) {
-        tmpDict[tmp] += 1;
+      const tmp = new Date(x.added_at);
+      const tmpYear = tmp.getFullYear();
+      const tmpMonth = tmp.getMonth();
+      if (tmpYear in tmpDict) {
+        if (tmpMonth in tmpDict[tmpYear]) tmpDict[tmpYear][tmpMonth].push(x);
+        else tmpDict[tmpYear][tmpMonth] = [x];
       } else {
-        tmpDict[tmp] = 1;
+        tmpDict[tmpYear] = { [tmpMonth]: [x] };
       }
-      if (x.track.artists && x.track.artists[0].name in artists) {
-        artists[x.track.artists[0].name] += 1;
+      if (x.track.artists && x.track.artists[0].name in tmpArtists) {
+        tmpArtists[x.track.artists[0].name] += 1;
       } else {
-        artists[x.track.artists[0].name] = 1;
+        tmpArtists[x.track.artists[0].name] = 1;
       }
     }
     setAddDate(tmpDict);
-    setArtists(artists);
-    setTopArtists(Object.keys(artists).sort((a, b) => artists[b] - artists[a]));
+    setArtists(tmpArtists);
+    setTopArtists(Object.keys(tmpArtists).sort((a, b) => tmpArtists[b] - tmpArtists[a]));
   }, [trackInfo, audioFeatures]);
 
   return (
@@ -54,25 +63,17 @@ const PlaylistAnalysis: React.FC<Props> = ({ trackInfo, audioFeatures, playlistI
       ) : (
         <div>No image</div>
       )}
-      {topArtists && (
+      {topArtists && artists && (
         <div>
-          {" "}
-          Top Artists:{" "}
+          Top Artists:
           {topArtists.slice(0, 3).map((artist) => (
             <div key={artist}>
               {artist}: {artists[artist]}{" "}
             </div>
-          ))}{" "}
+          ))}
         </div>
       )}
-      {addDate &&
-        Object.keys(addDate)
-          .reverse()
-          .map((key) => (
-            <div key={[key, addDate[key]]}>
-              {key}: {addDate[key]}
-            </div>
-          ))}
+      {addDate && console.log(addDate)}
     </div>
   );
 };
