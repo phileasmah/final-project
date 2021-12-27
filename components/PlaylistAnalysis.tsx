@@ -7,15 +7,15 @@ interface Props {
   audioFeatures: AudioFeature[];
 }
 
-const PlaylistOverview: React.FC<Props> = ({ playlistInfo, audioFeatures }) => {
+const PlaylistAnalysis: React.FC<Props> = ({ playlistInfo, audioFeatures }) => {
   const [addDate, setAddDate] = useState(null);
-  console.log(playlistInfo, audioFeatures)
   useEffect(() => {
     if (!playlistInfo) {
       return;
     }
 
     const tmpDict = {};
+    const artists = {};
 
     for (let x of playlistInfo) {
       const tmp = x.added_at.slice(0, 7);
@@ -24,9 +24,15 @@ const PlaylistOverview: React.FC<Props> = ({ playlistInfo, audioFeatures }) => {
       } else {
         tmpDict[tmp] = 1;
       }
+      if (x.track.artists && x.track.artists[0].name in artists) {
+        artists[x.track.artists[0].name] += 1
+      } else {
+        artists[x.track.artists[0].name] = 1
+      }
     }
     setAddDate(tmpDict);
-    console.log(audioFeatures)
+    console.log(artists)
+    console.log(Object.keys(artists).sort((a, b) => artists[b] - artists[a]))
   }, [playlistInfo, audioFeatures]);
 
   return (
@@ -38,9 +44,9 @@ const PlaylistOverview: React.FC<Props> = ({ playlistInfo, audioFeatures }) => {
             <div key={[key, addDate[key]]}>
               {key}: {addDate[key]}
             </div>
-          ))}
+          ))} 
     </div>
   );
 };
 
-export default PlaylistOverview;
+export default PlaylistAnalysis;
