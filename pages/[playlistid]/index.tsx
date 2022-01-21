@@ -13,7 +13,7 @@ const PlaylistProfile: React.FC = () => {
   const router = useRouter();
   const [trackInfo, setTrackInfo] = useState<ItemsEntity[]>([]);
   const [audioFeatures, setAudioFeatures] = useState<AudioFeature[]>([]);
-  const [playlistInfo, setPlaylistInfo] = useState<Playlist>()
+  const [playlistInfo, setPlaylistInfo] = useState<Playlist>();
   const [unauthorized, setUnauthorized] = useState<boolean>(false);
   const { clientToken, finish } = useContext(ApiContext) as ApiContextProvider;
   const [session, loading] = useSession();
@@ -61,18 +61,15 @@ const PlaylistProfile: React.FC = () => {
 
     const getPlaylist = async (id: string) => {
       try {
-        const response = await axios.get<Playlist>(
-          `https://api.spotify.com/v1/playlists/${id}`,
-          {
-            headers: {
-              Authorization:
-                "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
-            },
-          }
-        );
+        const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${id}`, {
+          headers: {
+            Authorization:
+              "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
+          },
+        });
         if (response.data.tracks.items) {
           setTrackInfo((p) => p.concat(response.data.tracks.items));
-          setPlaylistInfo(response.data)
+          setPlaylistInfo(response.data);
           await getAudioFeatures(response.data.tracks.items);
           if (response.data.tracks.next) {
             getPlaylistRec(response.data.tracks.next);
@@ -97,8 +94,14 @@ const PlaylistProfile: React.FC = () => {
         <div>You need permission to access this album</div>
       ) : isLoading ? (
         <div>loading</div>
-      ) : audioFeatures.length ? (
-        <PlaylistAnalysis trackInfo={trackInfo} audioFeatures={audioFeatures} playlistInfo={playlistInfo}/>
+      ) : audioFeatures && playlistInfo ? (
+        <PlaylistAnalysis
+          trackInfo={trackInfo}
+          audioFeatures={audioFeatures}
+          playlistInfo={playlistInfo}
+          clientToken={clientToken?.access_token}
+          session={session ? session.user.accessToken : null}
+        />
       ) : (
         <div> This playlist is empty</div>
       )}
