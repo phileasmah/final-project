@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Artist } from "../types/Artist";
 import { AudioFeature } from "../types/AudioFeatues";
 import { ItemsEntity, Playlist } from "../types/PlaylistType";
+import GeneralTimeOverview from "./GeneralTimeOverview";
 import OverallMood from "./OverallMood";
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 }
 
 interface DateGroup {
-  [year: number]: { [month: number]: ItemsEntity[] };
+  [year: string]: { [month: string]: ItemsEntity[] };
 }
 
 interface ArtistCount {
@@ -43,6 +44,9 @@ const PlaylistAnalysis: React.FC<Props> = ({
   const [artistGenres, setArtistGenres] = useState<ArtistGenre>();
   const [topGenres, setTopGenres] = useState<string[]>();
   const [genreCount, setGenreCount] = useState<GenreCount>();
+  const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>(
+    {}
+  );
   // console.log(audioFeatures)
   // console.log(playlistInfo)
   // console.log(trackInfo)
@@ -54,9 +58,8 @@ const PlaylistAnalysis: React.FC<Props> = ({
     const getArtistInfo = async (
       artistIds: string[],
       artistGenres: ArtistGenre,
-      artistGenreCount: GenreCount,
+      artistGenreCount: GenreCount
     ) => {
-
       const id = artistIds.join();
       const response = await axios.get<Artist>(`https://api.spotify.com/v1/artists?ids=${id}`, {
         headers: {
@@ -74,7 +77,9 @@ const PlaylistAnalysis: React.FC<Props> = ({
           }
         }
       }
-      setTopGenres(Object.keys(artistGenreCount).sort((a, b) => artistGenreCount[b] - artistGenreCount[a]));
+      setTopGenres(
+        Object.keys(artistGenreCount).sort((a, b) => artistGenreCount[b] - artistGenreCount[a])
+      );
     };
 
     const tmpDict: DateGroup = {};
@@ -115,9 +120,20 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setTopArtists(Object.keys(tmpArtists).sort((a, b) => tmpArtists[b] - tmpArtists[a]));
     setArtistGenres(tmpArtistGenres);
     setGenreCount(tmpArtistGenreCount);
-  }, [trackInfo, audioFeatures, session, clientToken]);
-  // console.log(topGenres)
-  // console.log(genreCount)
+  }, [trackInfo, session, clientToken]);
+
+  useEffect(() => {
+    const tmp: { [songId: string]: AudioFeature } = {};
+    for (let x of audioFeatures) {
+      try {
+        tmp[x.id] = x;
+      } catch {
+        continue;
+      }
+    }
+    setAudioFeaturesDict(tmp);
+  }, [audioFeatures]);
+
   return (
     <div className="flex flex-col align-middle justify-center">
       <h1 className="text-center text-4xl my-8">
@@ -152,7 +168,20 @@ const PlaylistAnalysis: React.FC<Props> = ({
           ))}
         </div>
       )}
-      <OverallMood audioFeatures={audioFeatures} playlistId={playlistInfo.id}/>
+      <div className="flex flex-col mb-3">
+        <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
+        <OverallMood audioFeatures={audioFeatures} playlistId={playlistInfo.id} />
+      </div>
+      <div className="mx-auto text-text font-medium text-xl">
+        Playlist analysis based on date added
+      </div>
+      {addDate && audioFeatures && (
+        <GeneralTimeOverview
+          audioFeaturesDict={audioFeaturesDict}
+          addDate={addDate}
+          playlistId={playlistInfo.id}
+        />
+      )}
     </div>
   );
 };
