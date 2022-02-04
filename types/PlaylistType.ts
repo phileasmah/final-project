@@ -82,7 +82,7 @@ export interface Track {
 }
 export interface Album {
   album_type: string;
-  artists?: (ArtistsEntity)[] | null;
+  artists: (ArtistsEntity)[];
   available_markets?: (string | null)[] | null;
   external_urls: ExternalUrls;
   href: string;

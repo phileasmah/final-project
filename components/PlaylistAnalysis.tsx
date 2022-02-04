@@ -44,9 +44,8 @@ const PlaylistAnalysis: React.FC<Props> = ({
   const [artistGenres, setArtistGenres] = useState<ArtistGenre>();
   const [topGenres, setTopGenres] = useState<string[]>();
   const [genreCount, setGenreCount] = useState<GenreCount>();
-  const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>(
-    {}
-  );
+  const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>({});
+  const [ avgAudioFeatures,setAvgAudioFeatures] = useState<string[][]>()
   // console.log(audioFeatures)
   // console.log(playlistInfo)
   // console.log(trackInfo)
@@ -124,18 +123,36 @@ const PlaylistAnalysis: React.FC<Props> = ({
 
   useEffect(() => {
     const tmp: { [songId: string]: AudioFeature } = {};
+    const features = [0, 0, 0, 0, 0];
+    let total = audioFeatures.length;
+    const tmpFeaturesAvg = [
+      ["Acousticness"],
+      ["Danceability"],
+      ["Energy"],
+      ["Liveness"],
+      ["Valence"],
+    ];
     for (let x of audioFeatures) {
       try {
         tmp[x.id] = x;
+        features[0] += x.acousticness;
+        features[1] += x.danceability;
+        features[2] += x.energy;
+        features[3] += x.liveness;
+        features[4] += x.valence;
       } catch {
-        continue;
+        total--;
       }
     }
+    for (let i = 0; i < features.length; i++) {
+      tmpFeaturesAvg[i].push(Math.round((features[i] / total) * 100).toString() + "%");
+    }
     setAudioFeaturesDict(tmp);
+    setAvgAudioFeatures(tmpFeaturesAvg);
   }, [audioFeatures]);
 
   return (
-    <div className="flex flex-col align-middle justify-center">
+    <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
       <h1 className="text-center text-4xl my-8">
         <b>{playlistInfo.name}</b>
       </h1>
@@ -170,16 +187,17 @@ const PlaylistAnalysis: React.FC<Props> = ({
       )}
       <div className="flex flex-col mb-3">
         <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
-        <OverallMood audioFeatures={audioFeatures} playlistId={playlistInfo.id} />
+        {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={playlistInfo.id} />}
       </div>
       <div className="mx-auto text-text font-medium text-xl">
         Playlist analysis based on date added
       </div>
-      {addDate && audioFeatures && (
+      {addDate && audioFeatures && avgAudioFeatures && (
         <GeneralTimeOverview
           audioFeaturesDict={audioFeaturesDict}
           addDate={addDate}
           playlistId={playlistInfo.id}
+          avgAudioFeatures = {avgAudioFeatures}
         />
       )}
     </div>

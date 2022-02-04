@@ -35,11 +35,11 @@ module.exports = {
         lightgrey2: "#5F6368",
         lightgrey3: "#373737",
         darkgrey: "#202124",
-        darkgrey2: "#232323",
+        darkgrey2: "#969BA1",
         darkgrey3: "#313235",
         spotify1: "#1AA64B",
         spotify2: "#1DB954",
-        spotify3: "#33C065"
+        spotify3: "#33C065",
       },
       boxShadow: {
         custom:
@@ -58,6 +58,7 @@ module.exports = {
         "6/7": "85vw",
         "9/10": "90vw",
         "2xs": "17.5rem",
+        "8xl": "88rem"
       },
       screens: {
         "3xl": "1600px",
