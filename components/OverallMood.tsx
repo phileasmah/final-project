@@ -5,7 +5,6 @@ interface Props {
 }
 
 const OverallMood: React.FC<Props> = ({ features, playlistId }) => {
-  console.log(features, playlistId)
   return (
     <div className="flex flex-col w-10/12 mx-auto">
       {features.map((feature) => (
