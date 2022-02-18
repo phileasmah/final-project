@@ -31,6 +31,9 @@ interface GenreCount {
   [genre: string]: number;
 }
 
+type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence"
+
+
 const PlaylistAnalysis: React.FC<Props> = ({
   trackInfo,
   audioFeatures,
@@ -45,7 +48,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
   const [topGenres, setTopGenres] = useState<string[]>();
   const [genreCount, setGenreCount] = useState<GenreCount>();
   const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>({});
-  const [ avgAudioFeatures,setAvgAudioFeatures] = useState<string[][]>()
+  const [ avgAudioFeatures,setAvgAudioFeatures] = useState<[Features, string][]>()
   // console.log(audioFeatures)
   // console.log(playlistInfo)
   // console.log(trackInfo)
@@ -148,7 +151,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
       tmpFeaturesAvg[i].push(Math.round((features[i] / total) * 100).toString() + "%");
     }
     setAudioFeaturesDict(tmp);
-    setAvgAudioFeatures(tmpFeaturesAvg);
+    setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
 
   return (
@@ -197,7 +200,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
           audioFeaturesDict={audioFeaturesDict}
           addDate={addDate}
           playlistId={playlistInfo.id}
-          avgAudioFeatures = {avgAudioFeatures}
+          rootMood = {avgAudioFeatures}
         />
       )}
     </div>

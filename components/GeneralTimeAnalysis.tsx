@@ -9,13 +9,15 @@ interface Props {
   time: string;
   tracks: ItemsEntity[];
   audioFeaturesDict: { [songId: string]: AudioFeature };
-  avgAudioFeatures: string[][];
+  rootMood: [Features, string][];
 }
 
-const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks }) => {
+type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence"
+
+const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood }) => {
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState("");
-  const [avgAudioFeatures, setAvgAudioFeatures] = useState<string[][]>();
+  const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
   const months = [
     "Jan",
     "Feb",
@@ -64,12 +66,12 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks 
     for (let i = 0; i < features.length; i++) {
       tmpFeaturesAvg[i].push(Math.round((features[i] / total) * 100).toString() + "%");
     }
-    setAvgAudioFeatures(tmpFeaturesAvg);
+    setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeaturesDict, tracks]);
 
   return (
     <div>
-      {tracks && <div className="flex flex-col mx-auto mb-10">
+      {tracks && <div className="flex flex-col mx-auto mt-10">
         <div>
           <button className="flex flex-row border text-text text-lg font-medium bg-lightgrey3 border-lightgrey2 px-3 py-0.5 rounded-xl hover:rounded-3xl duration-150">
             {months[month] + " " + year}
@@ -77,7 +79,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks 
           </button>
         </div>
         <div>
-          {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={time} />}
+          {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={time} rootMood={rootMood} />}
         </div>
         <div className="text-lg">
           You added <span className="text-text font-medium">{tracks.length}</span> songs this month:

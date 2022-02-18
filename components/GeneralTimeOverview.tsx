@@ -9,14 +9,14 @@ interface Props {
     [year: string]: { [month: string]: ItemsEntity[] };
   };
   playlistId: string;
-  avgAudioFeatures: string[][];
+  rootMood: [Features, string][];
 }
 
 const GeneralTimeOverview: React.FC<Props> = ({
   audioFeaturesDict,
   addDate,
   playlistId,
-  avgAudioFeatures,
+  rootMood,
 }) => {
   const [monthPos, setMonthPos] = useState(2);
   const [yearPos, setYearPos] = useState(0);
@@ -85,16 +85,16 @@ const GeneralTimeOverview: React.FC<Props> = ({
                 tracks={addDate[years[yearPos]][month]}
                 time={years[yearPos] + "," + month}
                 audioFeaturesDict={audioFeaturesDict}
-                avgAudioFeatures={avgAudioFeatures}
+                rootMood = {rootMood}
               />
             </div>
           ))}
         </div>
       )}
       {!fullLoad && (
-        <div>
-          <button onClick={handleLoadMore}>Load more</button>
-          <button onClick={handleLoadAll}>Load all months</button>
+        <div className="flex align-middle justify-center gap-x-5 my-6">
+          <button onClick={handleLoadMore} className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800">Load More</button>
+          <button onClick={handleLoadAll} className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800">Load All</button>
         </div>
       )}
       <div className="flex">
