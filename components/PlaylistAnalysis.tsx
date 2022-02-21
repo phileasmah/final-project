@@ -31,8 +31,7 @@ interface GenreCount {
   [genre: string]: number;
 }
 
-type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence"
-
+type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
 const PlaylistAnalysis: React.FC<Props> = ({
   trackInfo,
@@ -47,8 +46,11 @@ const PlaylistAnalysis: React.FC<Props> = ({
   const [artistGenres, setArtistGenres] = useState<ArtistGenre>();
   const [topGenres, setTopGenres] = useState<string[]>();
   const [genreCount, setGenreCount] = useState<GenreCount>();
-  const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>({});
-  const [ avgAudioFeatures,setAvgAudioFeatures] = useState<[Features, string][]>()
+  const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>(
+    {}
+  );
+  const [isPlaylist, setIsPlaylist] = useState(false)
+  const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
   // console.log(audioFeatures)
   // console.log(playlistInfo)
   // console.log(trackInfo)
@@ -154,10 +156,18 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
 
+  useEffect(() => {
+    if ("public" in playlistInfo) {
+      setIsPlaylist(true)
+    } else {
+      setIsPlaylist(false)
+    }
+  }, [playlistInfo])
+
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
-        <h1 className="text-center text-4xl my-8">
-        <b>{playlistInfo.name}</b>
+      <h1 className="text-center text-4xl my-8">
+        <b>{isPlaylist ? playlistInfo.name : "Liked Songs"}</b>
       </h1>
       <div className="flex mx-auto gap-x-7">
         {playlistInfo.images ? (
@@ -173,7 +183,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
         )}
         <div>
           <div className="text-lg">
-            {/* <b>{playlistInfo.tracks.total}</b> song{playlistInfo.tracks.total > 1 && "s"} by{" "} */}
+            <b>{isPlaylist ? playlistInfo.tracks.total : playlistInfo.total}</b> song{isPlaylist ? playlistInfo.tracks.total > 1 && "s" : playlistInfo.total > 1 && "s"} by{" "}
             <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
           </div>
         </div>
@@ -190,7 +200,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
       )}
       <div className="flex flex-col mb-3">
         <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
-        {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={"42"} />}
+        {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={isPlaylist ? playlistInfo.id : "liked-songs"} />}
       </div>
       <div className="mx-auto text-text font-medium text-xl">
         Playlist analysis based on date added
@@ -199,57 +209,10 @@ const PlaylistAnalysis: React.FC<Props> = ({
         <GeneralTimeOverview
           audioFeaturesDict={audioFeaturesDict}
           addDate={addDate}
-          playlistId={"42"}
+          playlistId={isPlaylist ? playlistInfo.id : "liked-songs"}
           rootMood = {avgAudioFeatures}
         />
       )}
-      {/* <h1 className="text-center text-4xl my-8">
-        <b>{playlistInfo.name}</b>
-      </h1>
-      <div className="flex mx-auto gap-x-7">
-        {playlistInfo.images ? (
-          <Image
-            src={playlistInfo.images[1].url}
-            alt={playlistInfo.name + " playlist art"}
-            width={260}
-            height={260}
-            className="rounded-md"
-          />
-        ) : (
-          <div>No image</div>
-        )}
-        <div>
-          <div className="text-lg">
-            <b>{playlistInfo.tracks.total}</b> song{playlistInfo.tracks.total > 1 && "s"} by{" "}
-            <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
-          </div>
-        </div>
-      </div>
-      {topArtists && artists && (
-        <div>
-          Top Artists:
-          {topArtists.slice(0, 3).map((artist) => (
-            <div key={artist}>
-              {artist}: {artists[artist]}{" "}
-            </div>
-          ))}
-        </div>
-      )}
-      <div className="flex flex-col mb-3">
-        <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
-        {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={playlistInfo.id} />}
-      </div>
-      <div className="mx-auto text-text font-medium text-xl">
-        Playlist analysis based on date added
-      </div>
-      {addDate && audioFeatures && avgAudioFeatures && (
-        <GeneralTimeOverview
-          audioFeaturesDict={audioFeaturesDict}
-          addDate={addDate}
-          playlistId={playlistInfo.id}
-          rootMood = {avgAudioFeatures}
-        />
-      )} */}
     </div>
   );
 };
