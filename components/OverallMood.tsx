@@ -27,22 +27,34 @@ const OverallMood: React.FC<Props> = ({ features, playlistId, rootMood }) => {
           </div>
           <div className="duration-300 mt-0.5">
             <div className="bg-gray-600 rounded-lg">
-              <div
-                className="duration-300 group-hover:h-7 h-3 bg-gray-400 rounded-lg mb-1.5"
-                style={{ width: feature[1] }}
-              ></div>
+              {rootMood ? (
+                <div
+                  className="duration-300 group-hover:h-7 h-3 bg-gray-400 rounded-lg mb-1.5"
+                  style={{ width: feature[1] }}
+                ></div>
+              ) : (
+                <div
+                  className="duration-300 h-7 bg-gray-400 rounded-lg mb-1.5"
+                  style={{ width: feature[1] }}
+                ></div>
+              )}
             </div>
-            <div className="duration-300 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100">
+            <div>
               {rootMood ? (
                 <div>
-                  <div className="bg-gray-600 rounded-lg">
-                    <div
-                      className="duration-300 group-hover:h-7 h-3 bg-gray-400 rounded-lg mb-1.5"
-                      style={{ width: rootMood[idx][1] }}
-                    ></div>
+                  <div className="duration-300">
+                    <div className="bg-gray-600 rounded-lg">
+                      <div
+                        className="duration-300 group-hover:h-7 h-3 bg-gray-400 rounded-lg mb-1.5"
+                        style={{ width: rootMood[idx][1] }}
+                      ></div>
+                    </div>
+                    <div className="text-lg font-medium">
+                      Overall {feature[0]} - <span className="text-text">{rootMood[idx][1]}</span>
+                    </div>
                   </div>
-                  <div className="text-lg font-medium">
-                    {feature[0]} - <span className="text-text">{rootMood[idx][1]}</span>
+                  <div className="duration-300 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100">
+                    {meanings[feature[0]]}
                   </div>
                 </div>
               ) : (

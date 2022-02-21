@@ -15,6 +15,16 @@ export interface Playlist {
   type: string;
   uri: string;
 }
+
+export interface LikedSongs {
+  href: string;
+  items: (ItemsEntity)[];
+  limit: number;
+  next: string;
+  offset: number;
+  previous?: null;
+  total: number;
+}
 export interface ExternalUrls {
   spotify: string;
 }
@@ -46,11 +56,7 @@ export interface Tracks {
 }
 export interface ItemsEntity {
   added_at: string;
-  added_by: AddedBy;
-  is_local: boolean;
-  primary_color?: null;
   track: Track;
-  video_thumbnail: VideoThumbnail;
 }
 export interface AddedBy {
   external_urls: ExternalUrls;

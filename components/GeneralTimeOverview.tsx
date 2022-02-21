@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { AudioFeature } from "../types/AudioFeatues";
 import { ItemsEntity } from "../types/PlaylistType";
 import GeneralTimeAnalysis from "./GeneralTimeAnalysis";
+import TracksTransform from "./TracksTransform";
+
+
+type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
 interface Props {
   audioFeaturesDict: { [songId: string]: AudioFeature };
@@ -23,6 +27,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
   const [years, setYears] = useState<string[]>([]);
   const [months, setMonths] = useState<string[][]>([]);
   const [fullLoad, setFullLoad] = useState(false);
+  const [filterBy, setFilterBy] = useState(true);
 
   useEffect(() => {
     const tmpYears = Object.keys(addDate).reverse();
@@ -68,9 +73,14 @@ const GeneralTimeOverview: React.FC<Props> = ({
       setFullLoad(false);
     }
   };
-  console.log(addDate);
+
+  const handleSwitch = () => {
+    setFilterBy(!filterBy);
+  };
+
   return (
     <div className="flex flex-col w-10/12 mx-auto">
+      <button onClick={handleSwitch}>switch</button>
       {years.length > 0 && months.length > 0 && (
         <div key={years[yearPos] + playlistId}>
           <div className="flex">
@@ -79,22 +89,43 @@ const GeneralTimeOverview: React.FC<Props> = ({
             {yearPos < years.length - 1 && <button onClick={handleNext}> &gt; </button>}
           </div>
           <hr className="border-gray-400 mb-3" />
-          {months[yearPos].slice(0, monthPos + 1).map((month) => (
-            <div key={month + years[yearPos] + playlistId}>
-              <GeneralTimeAnalysis
-                tracks={addDate[years[yearPos]][month]}
-                time={years[yearPos] + "," + month}
+          {filterBy ? (
+            months[yearPos].slice(0, monthPos + 1).map((month) => (
+              <div key={month + years[yearPos] + playlistId}>
+                <GeneralTimeAnalysis
+                  tracks={addDate[years[yearPos]][month]}
+                  time={years[yearPos] + "," + month}
+                  audioFeaturesDict={audioFeaturesDict}
+                  rootMood={rootMood}
+                />
+              </div>
+            ))
+          ) : (
+            <div>
+              <TracksTransform
+                tracks={addDate[years[yearPos]]}
+                time={years[yearPos] + ","}
                 audioFeaturesDict={audioFeaturesDict}
-                rootMood = {rootMood}
-              />
+                rootMood={rootMood}
+              /> 
             </div>
-          ))}
+          )}
         </div>
       )}
       {!fullLoad && (
         <div className="flex align-middle justify-center gap-x-5 my-6">
-          <button onClick={handleLoadMore} className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800">Load More</button>
-          <button onClick={handleLoadAll} className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800">Load All</button>
+          <button
+            onClick={handleLoadMore}
+            className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800"
+          >
+            Load More
+          </button>
+          <button
+            onClick={handleLoadAll}
+            className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800"
+          >
+            Load All
+          </button>
         </div>
       )}
       <div className="flex">

@@ -3,14 +3,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Artist } from "../types/Artist";
 import { AudioFeature } from "../types/AudioFeatues";
-import { ItemsEntity, Playlist } from "../types/PlaylistType";
+import { ItemsEntity, LikedSongs, Playlist } from "../types/PlaylistType";
 import GeneralTimeOverview from "./GeneralTimeOverview";
 import OverallMood from "./OverallMood";
 
 interface Props {
   trackInfo: ItemsEntity[];
   audioFeatures: AudioFeature[];
-  playlistInfo: Playlist;
+  playlistInfo: Playlist | LikedSongs;
   clientToken: string | undefined;
   session: string | null;
 }
@@ -156,13 +156,60 @@ const PlaylistAnalysis: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
-      <h1 className="text-center text-4xl my-8">
+        <h1 className="text-center text-4xl my-8">
         <b>{playlistInfo.name}</b>
       </h1>
       <div className="flex mx-auto gap-x-7">
         {playlistInfo.images ? (
           <Image
-            src={playlistInfo.images[0].url}
+            src={playlistInfo.images[1].url}
+            alt={playlistInfo.name + " playlist art"}
+            width={260}
+            height={260}
+            className="rounded-md"
+          />
+        ) : (
+          <div>No image</div>
+        )}
+        <div>
+          <div className="text-lg">
+            {/* <b>{playlistInfo.tracks.total}</b> song{playlistInfo.tracks.total > 1 && "s"} by{" "} */}
+            <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
+          </div>
+        </div>
+      </div>
+      {topArtists && artists && (
+        <div>
+          Top Artists:
+          {topArtists.slice(0, 3).map((artist) => (
+            <div key={artist}>
+              {artist}: {artists[artist]}{" "}
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="flex flex-col mb-3">
+        <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
+        {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={"42"} />}
+      </div>
+      <div className="mx-auto text-text font-medium text-xl">
+        Playlist analysis based on date added
+      </div>
+      {addDate && audioFeatures && avgAudioFeatures && (
+        <GeneralTimeOverview
+          audioFeaturesDict={audioFeaturesDict}
+          addDate={addDate}
+          playlistId={"42"}
+          rootMood = {avgAudioFeatures}
+        />
+      )}
+      {/* <h1 className="text-center text-4xl my-8">
+        <b>{playlistInfo.name}</b>
+      </h1>
+      <div className="flex mx-auto gap-x-7">
+        {playlistInfo.images ? (
+          <Image
+            src={playlistInfo.images[1].url}
             alt={playlistInfo.name + " playlist art"}
             width={260}
             height={260}
@@ -202,7 +249,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
           playlistId={playlistInfo.id}
           rootMood = {avgAudioFeatures}
         />
-      )}
+      )} */}
     </div>
   );
 };

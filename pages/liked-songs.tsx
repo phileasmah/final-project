@@ -3,17 +3,18 @@ import axios from "axios";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { ApiContext } from "../../components/Contexts/ApiContext";
-import PlaylistAnalysis from "../../components/PlaylistAnalysis";
-import { ApiContextProvider } from "../../types/ApiContextProvider";
-import { AudioFeature, AudioFeatures } from "../../types/AudioFeatues";
-import { ItemsEntity, Playlist, Tracks } from "../../types/PlaylistType";
+import { ApiContext } from "../components/Contexts/ApiContext";
+import PlaylistAnalysis from "../components/PlaylistAnalysis";
+import { ApiContextProvider } from "../types/ApiContextProvider";
+import { AudioFeature, AudioFeatures } from "../types/AudioFeatues";
+import { ItemsEntity, LikedSongs } from "../types/PlaylistType";
 
-const PlaylistProfile: React.FC = () => {
+
+const LikedSongs: React.FC = () => {
   const router = useRouter();
   const [trackInfo, setTrackInfo] = useState<ItemsEntity[]>([]);
   const [audioFeatures, setAudioFeatures] = useState<AudioFeature[]>([]);
-  const [playlistInfo, setPlaylistInfo] = useState<Playlist>();
+  const [playlistInfo, setPlaylistInfo] = useState<LikedSongs>();
   const [unauthorized, setUnauthorized] = useState<boolean>(false);
   const { clientToken, finish } = useContext(ApiContext) as ApiContextProvider;
   const [session, loading] = useSession();
@@ -27,7 +28,7 @@ const PlaylistProfile: React.FC = () => {
     setTrackInfo([]);
     setAudioFeatures([]);
     const getPlaylistRec = async (url: string) => {
-      const response = await axios.get<Tracks>(url, {
+      const response = await axios.get<LikedSongs>(url, {
         headers: {
           Authorization:
             "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
@@ -61,19 +62,18 @@ const PlaylistProfile: React.FC = () => {
 
     const getPlaylist = async (id: string) => {
       try {
-        const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${id}`, {
+        const response = await axios.get<LikedSongs>(`https://api.spotify.com/v1/me/tracks?limit=50`, {
           headers: {
             Authorization:
               "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
           },
         });
-        console.log(response)
-        if (response.data.tracks.items) {
-          setTrackInfo((p) => p.concat(response.data.tracks.items));
+        if (response.data.items) {
+          setTrackInfo((p) => p.concat(response.data.items));
           setPlaylistInfo(response.data);
-          await getAudioFeatures(response.data.tracks.items);
-          if (response.data.tracks.next) {
-            getPlaylistRec(response.data.tracks.next);
+          await getAudioFeatures(response.data.items);
+          if (response.data.next) {
+            getPlaylistRec(response.data.next);
           } else {
             setIsLoading(false);
           }
@@ -88,6 +88,8 @@ const PlaylistProfile: React.FC = () => {
       setPrevSession(session.user.accessToken);
     }
   }, [router, loading, session, clientToken, finish]);
+
+  console.log(trackInfo, audioFeatures, playlistInfo)
 
   return (
     <div>
@@ -110,4 +112,4 @@ const PlaylistProfile: React.FC = () => {
   );
 };
 
-export default PlaylistProfile;
+export default LikedSongs;

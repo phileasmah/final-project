@@ -15,6 +15,7 @@ interface Props {
 type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence"
 
 const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood }) => {
+  
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState("");
   const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
@@ -68,7 +69,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
     }
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeaturesDict, tracks]);
-
+  console.log(tracks)
   return (
     <div>
       {tracks && <div className="flex flex-col mx-auto mt-10">
