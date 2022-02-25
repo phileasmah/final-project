@@ -94,7 +94,7 @@ const PlaylistProfile: React.FC = () => {
       {unauthorized ? (
         <div>You need permission to access this album</div>
       ) : isLoading ? (
-        <div>loading</div>
+        <div>Loading Songs...{audioFeatures.length} / {playlistInfo?.tracks.total}</div>
       ) : audioFeatures && playlistInfo ? (
         <PlaylistAnalysis
           trackInfo={trackInfo}

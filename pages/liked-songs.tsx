@@ -96,7 +96,7 @@ const LikedSongs: React.FC = () => {
       {unauthorized ? (
         <div>You need permission to access this album</div>
       ) : isLoading ? (
-        <div>loading</div>
+        <div>Loading Songs...{audioFeatures.length} / {playlistInfo?.total}</div>
       ) : audioFeatures && playlistInfo ? (
         <PlaylistAnalysis
           trackInfo={trackInfo}
