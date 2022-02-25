@@ -115,16 +115,18 @@ const PlaylistAnalysis: React.FC<Props> = ({
         }
       }
     }
+    
     if (artistIds.length > 0) {
       getArtistInfo(artistIds, tmpArtistGenres, tmpArtistGenreCount);
     }
+
     setAddDate(tmpDict);
     setArtists(tmpArtists);
     setTopArtists(Object.keys(tmpArtists).sort((a, b) => tmpArtists[b] - tmpArtists[a]));
     setArtistGenres(tmpArtistGenres);
     setGenreCount(tmpArtistGenreCount);
   }, [trackInfo, session, clientToken]);
-
+  
   useEffect(() => {
     const tmp: { [songId: string]: AudioFeature } = {};
     const features = [0, 0, 0, 0, 0];
@@ -154,7 +156,6 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setAudioFeaturesDict(tmp);
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
-
 
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
@@ -190,7 +191,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
           ))}
         </div>
       )}
-      <div className="flex flex-col mb-3">
+      <div className="flex flex-col mb-3 w-10/12 mx-auto">
         <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
         {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"} />}
       </div>

@@ -17,9 +17,9 @@ const OverallMood: React.FC<Props> = ({ features, playlistId, rootMood }) => {
     Valence:
       "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
   };
-
+  
   return (
-    <div className="flex flex-col w-10/12 mx-auto">
+    <div className="flex flex-col mx-auto">
       {features.map((feature, idx) => (
         <div key={feature[0] + playlistId} className="group my-2">
           <div className="text-lg font-medium">
