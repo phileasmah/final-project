@@ -10,8 +10,9 @@ interface Props {
 const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
   const [artistCount, setArtistCount] = useState<{ [artistName: string]: number }>();
   const [sortedArtistCount, setSortedArtistCount] = useState<string[]>([]);
-  const [genreCount, setGenreCount] = useState<{ [genre: string]: number }>([]);
+  const [genreCount, setGenreCount] = useState<{ [genre: string]: number }>({});
   const [sortedGenreCount, setSortedGenreCount] = useState<string[]>([]);
+
   useEffect(() => {
     const tmpArtists: { [artistName: string]: number } = {};
     const tmpGenreCount: { [genre: string]: number } = {};

@@ -50,9 +50,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     {}
   );
   const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
-  // console.log(audioFeatures)
-  // console.log(playlistInfo)
-  // console.log(trackInfo)
+
   useEffect(() => {
     if (!trackInfo) {
       return;
@@ -81,7 +79,9 @@ const PlaylistAnalysis: React.FC<Props> = ({
         }
       }
       setTopGenres(
-        Object.keys(artistGenreCount).sort((a, b) => artistGenreCount[b] - artistGenreCount[a])
+        Object.keys(artistGenreCount)
+          .sort((a, b) => artistGenreCount[b] - artistGenreCount[a])
+          .slice(0, 20)
       );
     };
 
@@ -89,7 +89,6 @@ const PlaylistAnalysis: React.FC<Props> = ({
     const tmpArtists: ArtistCount = {};
     const tmpArtistGenres: ArtistGenre = {};
     const tmpArtistGenreCount: GenreCount = {};
-
     let artistIds = [];
     for (let x of trackInfo) {
       if (x.track.id === null) continue;
@@ -119,9 +118,14 @@ const PlaylistAnalysis: React.FC<Props> = ({
     if (artistIds.length > 0) {
       getArtistInfo(artistIds, tmpArtistGenres, tmpArtistGenreCount);
     }
+
+    setTopArtists(
+      Object.keys(tmpArtists)
+        .sort((a, b) => tmpArtists[b] - tmpArtists[a])
+        .slice(0, 5)
+    );
     setAddDate(tmpDict);
     setArtists(tmpArtists);
-    setTopArtists(Object.keys(tmpArtists).sort((a, b) => tmpArtists[b] - tmpArtists[a]));
     setArtistGenres(tmpArtistGenres);
     setGenreCount(tmpArtistGenreCount);
   }, [trackInfo, session, clientToken]);
@@ -155,7 +159,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setAudioFeaturesDict(tmp);
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
-  console.log();
+
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
       <h1 className="text-center text-4xl my-8">
@@ -183,18 +187,55 @@ const PlaylistAnalysis: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      {topArtists && artists && (
-        <div>
-          Top Artists:
-          {topArtists.slice(0, 3).map((artist) => (
-            <div key={artist}>
-              {artist}: {artists[artist]}{" "}
+      {topArtists &&
+        artists &&
+        artistGenres &&
+        Object.keys(artists).length === Object.keys(artistGenres).length &&
+        genreCount &&
+        topGenres && (
+          <div className="w-10/12 mx-auto flex flex-row justify-around">
+            <div>
+              <div className="mb-6">
+                <span className="text-text font-semibold text-lg">Top Artists:</span>
+                <ul>
+                  {topArtists.map((artist) => (
+                    <li key={artist}>
+                      <span className="text-text">{artist}</span> - {artists[artist]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <span className="text-text font-semibold text-lg">Top Genres:</span>
+                <ul className="grid grid-cols-2 gap-x-3">
+                  {topGenres.map((genre) => (
+                    <li key={genre}>
+                      <span className="">{genre}</span> -{" "}
+                      <span className="text-text">{genreCount[genre]}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          ))}
-        </div>
-      )}
+            <div>
+              <span className="text-text font-semibold text-lg">Genres of Top Artists:</span>
+              {topArtists.map((artist) => (
+                <div key={`${artist} genre`} className="mb-3">
+                  <span className="text-text">{artist}:</span>
+                  <ul className="grid grid-cols-2 gap-x-3">
+                    {artistGenres[artist].map((genre) => (
+                      <li key={artist + genre} className="list-disc ml-5">
+                        {genre}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       <div className="flex flex-col mb-3 w-10/12 mx-auto">
-        <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
+        <div className="text-text font-medium text-xl -mb-2">Overall Mood</div>
         {avgAudioFeatures && (
           <OverallMood
             features={avgAudioFeatures}
