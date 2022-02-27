@@ -85,9 +85,9 @@ const GeneralTimeOverview: React.FC<Props> = ({
       {years.length > 0 && months.length > 0 && (
         <div key={years[yearPos] + playlistId}>
           <div className="flex">
-            {yearPos > 0 && <button onClick={handlePrev}> &lt; </button>}
+            {yearPos > 0 && <button onClick={handlePrev}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&lt;</span> </button>}
             <span className="text-5xl font-medium mx-auto">{years[yearPos]}</span>
-            {yearPos < years.length - 1 && <button onClick={handleNext}> &gt; </button>}
+            {yearPos < years.length - 1 && <button onClick={handleNext}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&gt;</span> </button>}
           </div>
           <hr className="border-gray-400 mb-3" />
           {filterBy ? (
@@ -131,10 +131,10 @@ const GeneralTimeOverview: React.FC<Props> = ({
           </button>
         </div>
       )}
-      <div className="flex">
-        {yearPos > 0 && <button onClick={handlePrev}> &lt; </button>}
+      <div className="flex my-8">
+        {yearPos > 0 && <button onClick={handlePrev}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&lt;</span> </button>}
         <span className="text-5xl font-medium mx-auto">{years[yearPos]}</span>
-        {yearPos < years.length - 1 && <button onClick={handleNext}> &gt; </button>}
+        {yearPos < years.length - 1 && <button onClick={handleNext}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&gt;</span> </button>}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import defaultPic from "../public/default-playlist-pic-min.png";
 import { AudioFeature } from "../types/AudioFeatues";
 import { ItemsEntity } from "../types/PlaylistType";
 import OverallMood from "./OverallMood";
@@ -15,7 +16,13 @@ interface Props {
 
 type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
-const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood, artistGenres }) => {
+const GeneralTimeAnalysis: React.FC<Props> = ({
+  audioFeaturesDict,
+  time,
+  tracks,
+  rootMood,
+  artistGenres,
+}) => {
   const [month, setMonth] = useState<number | undefined>();
   const [year, setYear] = useState("");
   const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
@@ -85,9 +92,14 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
           )}
           <div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 mb-3">
-              <div>{<SongStatistics tracks={tracks} unique={time} artistGenres={artistGenres}/>}</div>
+              <div>
+                {<SongStatistics tracks={tracks} unique={time} artistGenres={artistGenres} />}
+              </div>
               {avgAudioFeatures && (
-                <OverallMood features={avgAudioFeatures} playlistId={time} rootMood={rootMood} />
+                <div>
+                  <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0">Mood for this period:</div>
+                  <OverallMood features={avgAudioFeatures} playlistId={time} rootMood={rootMood} />
+                </div>
               )}
             </div>
           </div>
@@ -119,12 +131,20 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
                   <span className="col-span-1 my-auto ml-3 lg:ml-5">{idx + 1}</span>
                   <div className="flex items-center col-span-6 sm:col-span-4 my-auto mr-3 md:mr-2 ml-2">
                     <div className="flex flex-none itmes-center">
-                      {track.track.album.images && (
+                      {track.track.album.images ? (
                         <Image
                           src={track.track.album.images[track.track.album.images.length - 1].url}
                           alt={track.track.album.name + " playlist art"}
                           width={41}
                           height={41}
+                        />
+                      ) : (
+                        <Image
+                          src={defaultPic}
+                          alt={"default playlist art"}
+                          width={260}
+                          height={260}
+                          className="rounded-md"
                         />
                       )}
                     </div>
@@ -150,7 +170,11 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
                     </div>
                   </div>
                   <div className="col-span-3 sm:col-span-1 my-auto font-medium ml-1 sm:-ml-2">
-                    {(month ? months[month] : months[Number(track.added_at.slice(5, 7))-1]) + " " + track.added_at.slice(8, 10) + ", " + year}
+                    {(month ? months[month] : months[Number(track.added_at.slice(5, 7)) - 1]) +
+                      " " +
+                      track.added_at.slice(8, 10) +
+                      ", " +
+                      year}
                   </div>
                 </li>
               ))}

@@ -36,6 +36,7 @@ const PlaylistProfile: React.FC = () => {
       if (response.data.items) {
         setTrackInfo((p) => p.concat(response.data.items));
         await getAudioFeatures(response.data.items);
+        console.log(response)
         if (response.data.next) {
           getPlaylistRec(response.data.next);
         } else {
@@ -93,7 +94,9 @@ const PlaylistProfile: React.FC = () => {
       {unauthorized ? (
         <div>You need permission to access this album</div>
       ) : isLoading ? (
-        <div>Loading Songs...{audioFeatures.length} / {playlistInfo?.tracks.total}</div>
+        <div>
+          Loading Songs...{audioFeatures.length} / {playlistInfo?.tracks.total}
+        </div>
       ) : audioFeatures && playlistInfo ? (
         <PlaylistAnalysis
           trackInfo={trackInfo}

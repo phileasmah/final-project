@@ -2,6 +2,7 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import defaultPic from "../public/default-playlist-pic-min.png";
 import likedSongsCover from "../public/liked-songs-cover.png";
 import { UserAlbums } from "../types/UserAlbums";
 
@@ -71,7 +72,13 @@ const UserPlaylists: React.FC<Props> = ({ session }) => {
                       className="rounded-md"
                     />
                   ) : (
-                    <div>no pic found</div>
+                    <Image
+                      src={defaultPic}
+                      alt={"default playlist art"}
+                      width={260}
+                      height={260}
+                      className="rounded-md"
+                    />
                   )}
                   <div className="w-64 md:w-52 2xl:w-56 3xl:w-64">
                     <span className="font-semibold text-lg">{playlist.name}</span>

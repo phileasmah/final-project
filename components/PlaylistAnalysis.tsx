@@ -1,6 +1,7 @@
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import defaultPic from "../public/default-playlist-pic-min.png";
 import { Artist } from "../types/Artist";
 import { AudioFeature } from "../types/AudioFeatues";
 import { ItemsEntity, LikedSongs, Playlist } from "../types/PlaylistType";
@@ -67,7 +68,6 @@ const PlaylistAnalysis: React.FC<Props> = ({
           Authorization: "Bearer " + `${session ? session : clientToken}`,
         },
       });
-
       for (const x of response.data.artists) {
         artistGenres[x.name] = x.genres;
         for (const genre of x.genres) {
@@ -165,35 +165,40 @@ const PlaylistAnalysis: React.FC<Props> = ({
       <h1 className="text-center text-4xl my-8">
         <b>{"public" in playlistInfo ? playlistInfo.name : "Liked Songs"}</b>
       </h1>
-      <div className="flex mx-auto gap-x-7">
-        {"public" in playlistInfo && playlistInfo.images ? (
-          <Image
-            src={playlistInfo.images[1].url}
-            alt={playlistInfo.name + " playlist art"}
-            width={260}
-            height={260}
-            className="rounded-md"
-          />
-        ) : (
-          <></>
-        )}
-        <div>
-          <div className="text-lg">
-            <b>{"public" in playlistInfo ? playlistInfo.tracks.total : playlistInfo.total}</b> song
-            {"public" in playlistInfo
-              ? playlistInfo.tracks.total > 1 && "s"
-              : playlistInfo.total > 1 && "s"}{" "}
-            by <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
-          </div>
-        </div>
-      </div>
       {topArtists &&
         artists &&
         artistGenres &&
         Object.keys(artists).length === Object.keys(artistGenres).length &&
         genreCount &&
         topGenres && (
-          <div className="w-10/12 mx-auto flex flex-row justify-around">
+          <div className="w-10/12 mx-auto flex flex-col lg:flex-row justify-between">
+            <div className="w-70 mx-auto lg:mx-0">
+              {"public" in playlistInfo && playlistInfo.images ? (
+                <Image
+                  src={playlistInfo.images[0].url}
+                  alt={playlistInfo.name + " playlist art"}
+                  width={260}
+                  height={260}
+                  className="rounded-md"
+                />
+              ) : (
+                <Image
+                  src={defaultPic}
+                  alt={"default playlist art"}
+                  width={260}
+                  height={260}
+                  className="rounded-md"
+                />
+              )}
+              <div className="text-lg">
+                <b>{"public" in playlistInfo ? playlistInfo.tracks.total : playlistInfo.total}</b>{" "}
+                song
+                {"public" in playlistInfo
+                  ? playlistInfo.tracks.total > 1 && "s"
+                  : playlistInfo.total > 1 && "s"}{" "}
+                with <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
+              </div>
+            </div>
             <div>
               <div className="mb-6">
                 <span className="text-text font-semibold text-lg">Top Artists:</span>
@@ -205,7 +210,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
                   ))}
                 </ul>
               </div>
-              <div>
+              <div className="mb-6 lg:mb-0">
                 <span className="text-text font-semibold text-lg">Top Genres:</span>
                 <ul className="grid grid-cols-2 gap-x-3">
                   {topGenres.map((genre) => (
@@ -235,7 +240,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
           </div>
         )}
       <div className="flex flex-col mb-3 w-10/12 mx-auto">
-        <div className="text-text font-medium text-xl -mb-2">Overall Mood</div>
+        <div className="text-text font-semibold text-xl -mb-2">Overall Mood:</div>
         {avgAudioFeatures && (
           <OverallMood
             features={avgAudioFeatures}
