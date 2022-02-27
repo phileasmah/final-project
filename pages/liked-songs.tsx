@@ -89,8 +89,6 @@ const LikedSongs: React.FC = () => {
     }
   }, [router, loading, session, clientToken, finish]);
 
-  console.log(trackInfo, audioFeatures, playlistInfo)
-
   return (
     <div>
       {unauthorized ? (

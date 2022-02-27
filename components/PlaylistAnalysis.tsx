@@ -115,18 +115,17 @@ const PlaylistAnalysis: React.FC<Props> = ({
         }
       }
     }
-    
+
     if (artistIds.length > 0) {
       getArtistInfo(artistIds, tmpArtistGenres, tmpArtistGenreCount);
     }
-
     setAddDate(tmpDict);
     setArtists(tmpArtists);
     setTopArtists(Object.keys(tmpArtists).sort((a, b) => tmpArtists[b] - tmpArtists[a]));
     setArtistGenres(tmpArtistGenres);
     setGenreCount(tmpArtistGenreCount);
   }, [trackInfo, session, clientToken]);
-  
+
   useEffect(() => {
     const tmp: { [songId: string]: AudioFeature } = {};
     const features = [0, 0, 0, 0, 0];
@@ -156,7 +155,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setAudioFeaturesDict(tmp);
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
-
+  console.log();
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
       <h1 className="text-center text-4xl my-8">
@@ -172,12 +171,15 @@ const PlaylistAnalysis: React.FC<Props> = ({
             className="rounded-md"
           />
         ) : (
-          <div>No image</div>
+          <></>
         )}
         <div>
           <div className="text-lg">
-            <b>{"public" in playlistInfo ? playlistInfo.tracks.total : playlistInfo.total}</b> song{"public" in playlistInfo ? playlistInfo.tracks.total > 1 && "s" : playlistInfo.total > 1 && "s"} by{" "}
-            <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
+            <b>{"public" in playlistInfo ? playlistInfo.tracks.total : playlistInfo.total}</b> song
+            {"public" in playlistInfo
+              ? playlistInfo.tracks.total > 1 && "s"
+              : playlistInfo.total > 1 && "s"}{" "}
+            by <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
           </div>
         </div>
       </div>
@@ -193,19 +195,30 @@ const PlaylistAnalysis: React.FC<Props> = ({
       )}
       <div className="flex flex-col mb-3 w-10/12 mx-auto">
         <div className="mx-auto text-text font-medium text-xl -mb-2">Overall Mood</div>
-        {avgAudioFeatures && <OverallMood features={avgAudioFeatures} playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"} />}
+        {avgAudioFeatures && (
+          <OverallMood
+            features={avgAudioFeatures}
+            playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"}
+          />
+        )}
       </div>
       <div className="mx-auto text-text font-medium text-xl">
         Playlist analysis based on date added
       </div>
-      {addDate && audioFeatures && avgAudioFeatures && (
-        <GeneralTimeOverview
-          audioFeaturesDict={audioFeaturesDict}
-          addDate={addDate}
-          playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"}
-          rootMood = {avgAudioFeatures}
-        />
-      )}
+      {addDate &&
+        audioFeatures &&
+        avgAudioFeatures &&
+        artistGenres &&
+        artists &&
+        Object.keys(artists).length == Object.keys(artistGenres).length && (
+          <GeneralTimeOverview
+            audioFeaturesDict={audioFeaturesDict}
+            addDate={addDate}
+            playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"}
+            rootMood={avgAudioFeatures}
+            artistGenres={artistGenres}
+          />
+        )}
     </div>
   );
 };

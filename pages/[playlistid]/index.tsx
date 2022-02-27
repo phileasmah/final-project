@@ -67,7 +67,6 @@ const PlaylistProfile: React.FC = () => {
               "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
           },
         });
-        console.log(response)
         if (response.data.tracks.items) {
           setTrackInfo((p) => p.concat(response.data.tracks.items));
           setPlaylistInfo(response.data);

@@ -8,18 +8,18 @@ interface Props {
   tracks: { [month: string]: ItemsEntity[] };
   audioFeaturesDict: { [songId: string]: AudioFeature };
   rootMood: [Features, string][];
+  artistGenres: { [id: string]: string[] };
 }
 
 type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
-const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood }) => {
+const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood, artistGenres }) => {
   const [final, setFinal] = useState<[] | ItemsEntity[]>([]);
 
   useEffect(() => {
     let tmp: ItemsEntity[] = [];
 
     for (let x of Object.keys(tracks).reverse()) {
-      console.log(tracks[x])
       tmp = tmp.concat(tracks[x]);
     }
     setFinal(tmp);
@@ -33,6 +33,7 @@ const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, roo
             time={time}
             audioFeaturesDict={audioFeaturesDict}
             rootMood={rootMood}
+            artistGenres={artistGenres}
           />
         </div>
       )}

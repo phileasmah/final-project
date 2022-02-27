@@ -4,7 +4,6 @@ import { ItemsEntity } from "../types/PlaylistType";
 import GeneralTimeAnalysis from "./GeneralTimeAnalysis";
 import TracksTransform from "./TracksTransform";
 
-
 type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
 interface Props {
@@ -14,6 +13,7 @@ interface Props {
   };
   playlistId: string;
   rootMood: [Features, string][];
+  artistGenres: { [id: string]: string[] };
 }
 
 const GeneralTimeOverview: React.FC<Props> = ({
@@ -21,6 +21,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
   addDate,
   playlistId,
   rootMood,
+  artistGenres,
 }) => {
   const [monthPos, setMonthPos] = useState(2);
   const [yearPos, setYearPos] = useState(0);
@@ -97,6 +98,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
                   time={years[yearPos] + "," + month}
                   audioFeaturesDict={audioFeaturesDict}
                   rootMood={rootMood}
+                  artistGenres={artistGenres}
                 />
               </div>
             ))
@@ -107,12 +109,13 @@ const GeneralTimeOverview: React.FC<Props> = ({
                 time={years[yearPos] + ","}
                 audioFeaturesDict={audioFeaturesDict}
                 rootMood={rootMood}
-              /> 
+                artistGenres={artistGenres}
+              />
             </div>
           )}
         </div>
       )}
-      {!fullLoad && (
+      {filterBy && !fullLoad && (
         <div className="flex align-middle justify-center gap-x-5 my-6">
           <button
             onClick={handleLoadMore}

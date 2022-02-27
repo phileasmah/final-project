@@ -10,11 +10,12 @@ interface Props {
   tracks: ItemsEntity[];
   audioFeaturesDict: { [songId: string]: AudioFeature };
   rootMood: [Features, string][];
+  artistGenres: { [id: string]: string[] };
 }
 
 type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
-const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood }) => {
+const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood, artistGenres }) => {
   const [month, setMonth] = useState<number | undefined>();
   const [year, setYear] = useState("");
   const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
@@ -68,12 +69,12 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
     }
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeaturesDict, tracks]);
-  console.log(tracks)
+
   return (
     <div>
       {tracks && (
         <div className="flex flex-col mx-auto mt-5">
-          {month ? (
+          {month || month == 0 ? (
             <div>
               <div className="inline-block border text-text text-lg font-medium bg-lightgrey3 border-lightgrey2 px-3 py-0.5 rounded-xl mb-2">
                 {months[month] + " " + year}
@@ -83,8 +84,8 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
             <> </>
           )}
           <div>
-            <div className="flex flex-col lg:flex-row ">
-              <div className="w-96">{<SongStatistics tracks={tracks} unique={time} />}</div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 mb-3">
+              <div>{<SongStatistics tracks={tracks} unique={time} artistGenres={artistGenres}/>}</div>
               {avgAudioFeatures && (
                 <OverallMood features={avgAudioFeatures} playlistId={time} rootMood={rootMood} />
               )}
@@ -92,7 +93,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({ audioFeaturesDict, time, tracks,
           </div>
           <div className="text-lg">
             You added <span className="text-text font-medium">{tracks.length}</span> songs this
-            month:
+            period:
           </div>
           <div className="border border-darkgrey2 rounded-lg">
             <div className="grid grid-cols-10 py-3 border-b shadow-custom border-darkgrey2 font-medium">
