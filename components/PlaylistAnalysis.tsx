@@ -240,16 +240,13 @@ const PlaylistAnalysis: React.FC<Props> = ({
           </div>
         )}
       <div className="flex flex-col mb-3 w-10/12 mx-auto">
-        <div className="text-text font-semibold text-xl -mb-2">Overall Mood:</div>
+        <div className="text-text font-semibold text-2xl -mb-2 mt-6">Overall Mood:</div>
         {avgAudioFeatures && (
           <OverallMood
             features={avgAudioFeatures}
             playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"}
           />
         )}
-      </div>
-      <div className="mx-auto text-text font-medium text-xl">
-        Playlist analysis based on date added
       </div>
       {addDate &&
         audioFeatures &&

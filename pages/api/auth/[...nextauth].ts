@@ -44,10 +44,7 @@ async function refreshAccessToken(token: JWT) {
   }
 }
 
-// For more information on each option (and a full list of options) go to
-// https://next-auth.js.org/configuration/options
 export default NextAuth({
-  // https://next-auth.js.org/configuration/providers
   providers: [
     Providers.Spotify({
       scope:
@@ -60,10 +57,6 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    // async signIn(user, account, profile) { return true },
-    // async redirect(url, baseUrl) { return baseUrl },
-    // async session(session, user) { return session },
-    // async jwt(token, user, account, profile, isNewUser) { return token }
     async jwt(token: JWT, user: User, account: Account) {
       if (account && user) {
         token.id = account.id;
@@ -90,7 +83,4 @@ export default NextAuth({
   jwt: {
     signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
   },
-  // Events are useful for logging
-  // https://next-auth.js.org/configuration/events
-  // events: {},
 });

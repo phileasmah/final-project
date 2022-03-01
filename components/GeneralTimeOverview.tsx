@@ -80,14 +80,43 @@ const GeneralTimeOverview: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col w-10/12 mx-auto">
-      <button onClick={handleSwitch}>switch</button>
+    <div className="flex flex-col w-10/12 mx-auto mt-3">
+      <div className="flex flex-col md:flex-row justify-between align-middle mb-3">
+        {" "}
+        <span className="text-text font-semibold text-2xl">
+          Playlist analysis based on date added:
+        </span>{" "}
+        <div className="ml-auto md:ml-0">
+          Sorting by:{" "}
+          <button
+            onClick={handleSwitch}
+            className="bg-lightblue text-darkgrey px-3 py-1 rounded-2xl font-semibold"
+          >
+            {filterBy ? "Monthly" : "Yearly"}
+          </button>
+        </div>
+      </div>
+
       {years.length > 0 && months.length > 0 && (
         <div key={years[yearPos] + playlistId}>
           <div className="flex">
-            {yearPos > 0 && <button onClick={handlePrev}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&lt;</span> </button>}
-            <span className="text-5xl font-medium mx-auto">{years[yearPos]}</span>
-            {yearPos < years.length - 1 && <button onClick={handleNext}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&gt;</span> </button>}
+            {yearPos > 0 && (
+              <button onClick={handlePrev}>
+                {" "}
+                <span className="bg-lightblue text-2xl text-darkgrey font-semibold px-2 py-0.5 rounded-full">
+                  &lt;
+                </span>{" "}
+              </button>
+            )}
+            <span className="text-5xl font-semibold text-text mt-3 mx-auto">{years[yearPos]}</span>
+            {yearPos < years.length - 1 && (
+              <button onClick={handleNext}>
+                {" "}
+                <span className="bg-lightblue text-2xl text-darkgrey font-semibold px-2 py-0.5 rounded-full">
+                  &gt;
+                </span>{" "}
+              </button>
+            )}
           </div>
           <hr className="border-gray-400 mb-3" />
           {filterBy ? (
@@ -132,9 +161,23 @@ const GeneralTimeOverview: React.FC<Props> = ({
         </div>
       )}
       <div className="flex my-8">
-        {yearPos > 0 && <button onClick={handlePrev}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&lt;</span> </button>}
-        <span className="text-5xl font-medium mx-auto">{years[yearPos]}</span>
-        {yearPos < years.length - 1 && <button onClick={handleNext}> <span className="bg-lightgrey2 text-2xl text-darkgrey font-semibold px-4 rounded-full">&gt;</span> </button>}
+        {yearPos > 0 && (
+          <button onClick={handlePrev}>
+            {" "}
+            <span className="bg-lightblue text-2xl text-darkgrey font-semibold px-2 py-0.5 rounded-full">
+              &lt;
+            </span>{" "}
+          </button>
+        )}
+        <span className="text-5xl font-semibold text-text mt-3 mx-auto">{years[yearPos]}</span>
+        {yearPos < years.length - 1 && (
+          <button onClick={handleNext}>
+            {" "}
+            <span className="bg-lightblue text-2xl text-darkgrey font-semibold px-2 py-0.5 rounded-full">
+              &gt;
+            </span>{" "}
+          </button>
+        )}
       </div>
     </div>
   );
