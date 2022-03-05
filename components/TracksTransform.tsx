@@ -14,7 +14,7 @@ interface Props {
 type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
 
 const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood, artistGenres }) => {
-  const [final, setFinal] = useState<[] | ItemsEntity[]>([]);
+  const [yearlyTracks, setYearlyTracks] = useState<[] | ItemsEntity[]>([]);
 
   useEffect(() => {
     let tmp: ItemsEntity[] = [];
@@ -22,15 +22,15 @@ const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, roo
     for (let x of Object.keys(tracks).reverse()) {
       tmp = tmp.concat(tracks[x]);
     }
-    setFinal(tmp);
+    setYearlyTracks(tmp);
   }, [tracks]);
   
   return (
     <div>
-      {final && (
+      {yearlyTracks && (
         <div>
           <GeneralTimeAnalysis
-            tracks={final}
+            tracks={yearlyTracks}
             time={time}
             audioFeaturesDict={audioFeaturesDict}
             rootMood={rootMood}
