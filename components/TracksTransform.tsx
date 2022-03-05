@@ -24,6 +24,7 @@ const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, roo
     }
     setFinal(tmp);
   }, [tracks]);
+  
   return (
     <div>
       {final && (
