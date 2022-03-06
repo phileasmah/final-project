@@ -25,7 +25,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
 }) => {
   const [month, setMonth] = useState<number | undefined>();
   const [year, setYear] = useState("");
-  const [avgAudioFeatures, setAvgAudioFeatures] = useState<[Features, string][]>();
+  
   const months = [
     "Jan",
     "Feb",
@@ -47,36 +47,6 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
     setYear(tmp[0]);
   }, [time]);
 
-  useEffect(() => {
-    if (!tracks) {
-      return;
-    }
-    const features = [0, 0, 0, 0, 0];
-    let total = tracks.length;
-    const tmpFeaturesAvg = [
-      ["Acousticness"],
-      ["Danceability"],
-      ["Energy"],
-      ["Liveness"],
-      ["Valence"],
-    ];
-    for (let x of tracks) {
-      try {
-        features[0] += audioFeaturesDict[x.track.id].acousticness;
-        features[1] += audioFeaturesDict[x.track.id].danceability;
-        features[2] += audioFeaturesDict[x.track.id].energy;
-        features[3] += audioFeaturesDict[x.track.id].liveness;
-        features[4] += audioFeaturesDict[x.track.id].valence;
-      } catch {
-        total--;
-      }
-    }
-    for (let i = 0; i < features.length; i++) {
-      tmpFeaturesAvg[i].push(Math.round((features[i] / total) * 100).toString() + "%");
-    }
-    setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
-  }, [audioFeaturesDict, tracks]);
-
   return (
     <div>
       {tracks && (
@@ -95,12 +65,18 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               <div>
                 {<SongStatistics tracks={tracks} unique={time} artistGenres={artistGenres} />}
               </div>
-              {avgAudioFeatures && (
-                <div>
-                  <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0">Mood for this period:</div>
-                  <OverallMood features={avgAudioFeatures} playlistId={time} rootMood={rootMood} />
+
+              <div>
+                <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0">
+                  Mood for this period:
                 </div>
-              )}
+                <OverallMood
+                  audioFeaturesDict={audioFeaturesDict}
+                  tracks={tracks}
+                  playlistId={time}
+                  rootMood={rootMood}
+                />
+              </div>
             </div>
           </div>
           <div className="text-lg">

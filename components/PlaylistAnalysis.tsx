@@ -42,10 +42,10 @@ const PlaylistAnalysis: React.FC<Props> = ({
   session,
 }) => {
   const [addDate, setAddDate] = useState<DateGroup>();
-  const [sortedArtists, setSortedArtists] = useState<string[]>([]);
+  const [topArtists, setTopArtists] = useState<string[]>([]);
   const [artists, setArtists] = useState<ArtistCount>();
   const [artistGenres, setArtistGenres] = useState<ArtistGenre>();
-  const [sortedGenres, setSortedGenres] = useState<string[]>();
+  const [topGenres, setTopGenres] = useState<string[]>();
   const [genreCount, setGenreCount] = useState<GenreCount>();
   const [audioFeaturesDict, setAudioFeaturesDict] = useState<{ [songId: string]: AudioFeature }>(
     {}
@@ -78,31 +78,29 @@ const PlaylistAnalysis: React.FC<Props> = ({
           }
         }
       }
-      setSortedGenres(
+      setTopGenres(
         Object.keys(artistGenreCount)
           .sort((a, b) => artistGenreCount[b] - artistGenreCount[a])
           .slice(0, 20)
       );
     };
 
-    const tmpAddDateDict: DateGroup = {};
+    const tmpDict: DateGroup = {};
     const tmpArtists: ArtistCount = {};
     const tmpArtistGenres: ArtistGenre = {};
     const tmpArtistGenreCount: GenreCount = {};
     let artistIds = [];
-
     for (let x of trackInfo) {
       if (x.track.id === null) continue;
-      const tmpDate = new Date(x.added_at);
-      const tmpYear = tmpDate.getFullYear();
-      const tmpMonth = tmpDate.getMonth();
-      if (tmpYear in tmpAddDateDict) {
-        if (tmpMonth in tmpAddDateDict[tmpYear]) tmpAddDateDict[tmpYear][tmpMonth].push(x);
-        else tmpAddDateDict[tmpYear][tmpMonth] = [x];
+      const tmp = new Date(x.added_at);
+      const tmpYear = tmp.getFullYear();
+      const tmpMonth = tmp.getMonth();
+      if (tmpYear in tmpDict) {
+        if (tmpMonth in tmpDict[tmpYear]) tmpDict[tmpYear][tmpMonth].push(x);
+        else tmpDict[tmpYear][tmpMonth] = [x];
       } else {
-        tmpAddDateDict[tmpYear] = { [tmpMonth]: [x] };
+        tmpDict[tmpYear] = { [tmpMonth]: [x] };
       }
-
       for (const artist of x.track.artists) {
         if (artist.name in tmpArtists) {
           tmpArtists[artist.name] += 1;
@@ -121,12 +119,12 @@ const PlaylistAnalysis: React.FC<Props> = ({
       getArtistInfo(artistIds, tmpArtistGenres, tmpArtistGenreCount);
     }
 
-    setSortedArtists(
+    setTopArtists(
       Object.keys(tmpArtists)
         .sort((a, b) => tmpArtists[b] - tmpArtists[a])
         .slice(0, 5)
     );
-    setAddDate(tmpAddDateDict);
+    setAddDate(tmpDict);
     setArtists(tmpArtists);
     setArtistGenres(tmpArtistGenres);
     setGenreCount(tmpArtistGenreCount);
@@ -167,12 +165,12 @@ const PlaylistAnalysis: React.FC<Props> = ({
       <h1 className="text-center text-4xl my-8">
         <b>{"public" in playlistInfo ? playlistInfo.name : "Liked Songs"}</b>
       </h1>
-      {sortedArtists &&
+      {topArtists &&
         artists &&
         artistGenres &&
         Object.keys(artists).length === Object.keys(artistGenres).length &&
         genreCount &&
-        sortedGenres && (
+        topGenres && (
           <div className="w-10/12 mx-auto flex flex-col lg:flex-row justify-between">
             <div className="w-70 mx-auto lg:mx-0">
               {"public" in playlistInfo && playlistInfo.images ? (
@@ -198,14 +196,14 @@ const PlaylistAnalysis: React.FC<Props> = ({
                 {"public" in playlistInfo
                   ? playlistInfo.tracks.total > 1 && "s"
                   : playlistInfo.total > 1 && "s"}{" "}
-                with <b>{sortedArtists.length}</b> artist{sortedArtists.length > 1 && "s"}
+                with <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
               </div>
             </div>
             <div>
               <div className="mb-6">
                 <span className="text-text font-semibold text-lg">Top Artists:</span>
                 <ul>
-                  {sortedArtists.map((artist) => (
+                  {topArtists.map((artist) => (
                     <li key={artist}>
                       <span className="text-text">{artist}</span> - {artists[artist]}
                     </li>
@@ -215,7 +213,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
               <div className="mb-6 lg:mb-0">
                 <span className="text-text font-semibold text-lg">Top Genres:</span>
                 <ul className="grid grid-cols-2 gap-x-3">
-                  {sortedGenres.map((genre) => (
+                  {topGenres.map((genre) => (
                     <li key={genre}>
                       <span className="">{genre}</span> -{" "}
                       <span className="text-text">{genreCount[genre]}</span>
@@ -226,7 +224,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
             </div>
             <div>
               <span className="text-text font-semibold text-lg">Genres of Top Artists:</span>
-              {sortedArtists.map((artist) => (
+              {topArtists.map((artist) => (
                 <div key={`${artist} genre`} className="mb-3">
                   <span className="text-text">{artist}:</span>
                   <ul className="grid grid-cols-2 gap-x-3">
@@ -245,7 +243,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
         <div className="text-text font-semibold text-2xl -mb-2 mt-6">Overall Mood:</div>
         {avgAudioFeatures && (
           <OverallMood
-            features={avgAudioFeatures}
+            overallFeatures={avgAudioFeatures}
             playlistId={"public" in playlistInfo ? playlistInfo.id : "liked-songs"}
           />
         )}
