@@ -131,7 +131,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
   }, [trackInfo, session, clientToken]);
 
   useEffect(() => {
-    const tmp: { [songId: string]: AudioFeature } = {};
+    const tmpAudioFeaturesDict: { [songId: string]: AudioFeature } = {};
     const features = [0, 0, 0, 0, 0];
     let total = audioFeatures.length;
     const tmpFeaturesAvg = [
@@ -143,7 +143,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     ];
     for (let x of audioFeatures) {
       try {
-        tmp[x.id] = x;
+        tmpAudioFeaturesDict[x.id] = x;
         features[0] += x.acousticness;
         features[1] += x.danceability;
         features[2] += x.energy;
@@ -156,7 +156,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     for (let i = 0; i < features.length; i++) {
       tmpFeaturesAvg[i].push(Math.round((features[i] / total) * 100).toString() + "%");
     }
-    setAudioFeaturesDict(tmp);
+    setAudioFeaturesDict(tmpAudioFeaturesDict);
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
 
