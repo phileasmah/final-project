@@ -30,7 +30,7 @@ const PlaylistProfile: React.FC = () => {
       const response = await axios.get<Tracks>(url, {
         headers: {
           Authorization:
-            "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
+            "Bearer " + `${session ? session.user.accessToken : "error"}`,
         },
       });
       if (response.data.items) {
@@ -64,7 +64,7 @@ const PlaylistProfile: React.FC = () => {
         const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${id}`, {
           headers: {
             Authorization:
-              "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
+              "Bearer " + `${session ? session.user.accessToken : "error"}`,
           },
         });
         if (response.data.tracks.items) {
@@ -91,7 +91,7 @@ const PlaylistProfile: React.FC = () => {
   return (
     <div>
       {unauthorized ? (
-        <div>You need permission to access this album</div>
+        <div>You need permission to access this album or this album doesnt exist</div>
       ) : isLoading ? (
         <div>
           Loading Songs...{audioFeatures.length} / {playlistInfo?.tracks.total}
