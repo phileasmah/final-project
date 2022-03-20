@@ -26,7 +26,7 @@ const PlaylistProfile: React.FC = () => {
     setIsLoading(true);
     setTrackInfo([]);
     setAudioFeatures([]);
-    const getPlaylistRec = async (url: string) => {
+    const getTracksRec = async (url: string) => {
       const response = await axios.get<Tracks>(url, {
         headers: {
           Authorization:
@@ -37,7 +37,7 @@ const PlaylistProfile: React.FC = () => {
         setTrackInfo((p) => p.concat(response.data.items));
         await getAudioFeatures(response.data.items);
         if (response.data.next) {
-          getPlaylistRec(response.data.next);
+          getTracksRec(response.data.next);
         } else {
           setIsLoading(false);
         }
@@ -51,7 +51,7 @@ const PlaylistProfile: React.FC = () => {
         {
           headers: {
             Authorization:
-              "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
+              "Bearer " + `${session}`,
           },
         }
       );
@@ -59,7 +59,7 @@ const PlaylistProfile: React.FC = () => {
       setAudioFeatures((p) => p.concat(response.data.audio_features));
     };
 
-    const getPlaylist = async (id: string) => {
+    const getTracks = async (id: string) => {
       try {
         const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${id}`, {
           headers: {
@@ -72,7 +72,7 @@ const PlaylistProfile: React.FC = () => {
           setPlaylistInfo(response.data);
           await getAudioFeatures(response.data.tracks.items);
           if (response.data.tracks.next) {
-            getPlaylistRec(response.data.tracks.next);
+            getTracksRec(response.data.tracks.next);
           } else {
             setIsLoading(false);
           }
@@ -82,7 +82,7 @@ const PlaylistProfile: React.FC = () => {
       }
     };
 
-    getPlaylist(router.query.playlistid as string);
+    getTracks(router.query.playlistid as string);
     if (session) {
       setPrevSession(session.user.accessToken);
     }

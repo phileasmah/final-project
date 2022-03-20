@@ -65,7 +65,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
       const id = artistIds.join();
       const response = await axios.get<Artist>(`https://api.spotify.com/v1/artists?ids=${id}`, {
         headers: {
-          Authorization: "Bearer " + `${session ? session : clientToken}`,
+          Authorization: "Bearer " + `${session}`,
         },
       });
       for (const x of response.data.artists) {
