@@ -240,7 +240,8 @@ const PlaylistAnalysis: React.FC<Props> = ({
           </div>
         )}
       <div className="flex flex-col mb-3 w-10/12 mx-auto">
-        <div className="text-text font-semibold text-2xl -mb-2 mt-6">Overall Mood:</div>
+        <div className="text-text font-semibold text-3xl mt-6">Overall Mood</div>
+        <hr className="my-2 border-lightgrey2" />
         {avgAudioFeatures && (
           <OverallMood
             overallFeatures={avgAudioFeatures}

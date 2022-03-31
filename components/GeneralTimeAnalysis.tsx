@@ -25,7 +25,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
 }) => {
   const [month, setMonth] = useState<number | undefined>();
   const [year, setYear] = useState("");
-  
+
   const months = [
     "Jan",
     "Feb",
@@ -53,8 +53,9 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
         <div className="flex flex-col mx-auto mt-5">
           {month || month == 0 ? (
             <div>
-              <div className="inline-block border text-text text-lg font-medium bg-lightgrey3 border-lightgrey2 px-3 py-0.5 rounded-xl mb-2">
+              <div className="inline-block  text-white font-semibold text-2xl rounded-xl mb-2">
                 {months[month] + " " + year}
+                <hr className="border-lightgrey3" />
               </div>
             </div>
           ) : (
@@ -67,7 +68,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               </div>
 
               <div>
-                <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0">
+                <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0 text-3xl">
                   Mood for this period:
                 </div>
                 <OverallMood

@@ -50,7 +50,7 @@ const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
   return (
     <div>
       <div className="mb-6">
-        <span className="text-text font-semibold">Top Artists:</span>
+        <span className="text-text font-semibold text-xl">Top Artists:</span>
         <ul>
           {artistCount &&
             sortedArtistCount.map((artist) => (
@@ -61,7 +61,7 @@ const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
         </ul>
       </div>
       <div>
-        <span className="text-text font-semibold">Genres of Top Artists:</span>
+        <span className="text-text font-semibold text-xl">Genres of Top Artists:</span>
         {sortedArtistCount.map((artist) => (
           <div key={`${artist} ${unique} genre`} className="mb-3">
             <span className="text-text">{artist}:</span>
@@ -76,7 +76,7 @@ const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
         ))}
       </div>
       <div>
-        <span className="text-text font-semibold">Top Genres:</span>
+        <span className="text-text font-semibold text-xl">Top Genres:</span>
         <ul className="grid grid-cols-2">
           {sortedGenreCount.map((genre) => (
             <li key={`${genre} ${unique}`}>

@@ -83,11 +83,11 @@ const GeneralTimeOverview: React.FC<Props> = ({
     <div className="flex flex-col w-10/12 mx-auto mt-3">
       <div className="flex flex-col md:flex-row justify-between align-middle mb-3">
         {" "}
-        <span className="text-text font-semibold text-2xl">
-          Playlist analysis based on date added:
+        <span className="text-text font-semibold text-3xl">
+          Playlist analysis based on date added
         </span>{" "}
         <div className="ml-auto md:ml-0">
-          Sorting by:{" "}
+          <span className="font-semibold mr-2">Sorting by:</span>
           <button
             onClick={handleSwitch}
             className="bg-lightblue text-darkgrey px-3 py-1 rounded-2xl font-semibold"
@@ -118,7 +118,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
               </button>
             )}
           </div>
-          <hr className="border-gray-400 mb-3" />
+          <hr className="mt-3 mb-2 border-lightgrey2" />
           {filterBy ? (
             months[yearPos].slice(0, monthPos + 1).map((month) => (
               <div key={month + years[yearPos] + playlistId}>
