@@ -51,7 +51,7 @@ const PlaylistProfile: React.FC = () => {
         {
           headers: {
             Authorization:
-              "Bearer " + `${session}`,
+              "Bearer " + `${session ? session.user.accessToken : "error"}`,
           },
         }
       );
@@ -61,6 +61,7 @@ const PlaylistProfile: React.FC = () => {
 
     const getTracks = async (id: string) => {
       try {
+        console.log(session)
         const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${id}`, {
           headers: {
             Authorization:
