@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AudioFeature } from "../types/AudioFeatues";
 import { ItemsEntity } from "../types/PlaylistType";
 
-type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
+type Features = "Acousticness" | "Danceability" | "Energy" | "Instrumentalness" | "Valence";
 interface Props {
   playlistId: string;
   rootMood?: [Features, string][];
@@ -29,7 +29,7 @@ const OverallMood: React.FC<Props> = ({
       ["Acousticness", 0],
       ["Danceability", 0],
       ["Energy", 0],
-      ["Liveness", 0],
+      ["Instrumentalness", 0],
       ["Valence", 0],
     ];
     for (let x of tracks) {
@@ -37,7 +37,7 @@ const OverallMood: React.FC<Props> = ({
         (tmpFeatures[0][1] as number) += audioFeaturesDict[x.track.id].acousticness;
         (tmpFeatures[1][1] as number) += audioFeaturesDict[x.track.id].danceability;
         (tmpFeatures[2][1] as number) += audioFeaturesDict[x.track.id].energy;
-        (tmpFeatures[3][1] as number) += audioFeaturesDict[x.track.id].liveness;
+        (tmpFeatures[3][1] as number) += audioFeaturesDict[x.track.id].instrumentalness;
         (tmpFeatures[4][1] as number) += audioFeaturesDict[x.track.id].valence;
       } catch {
         total--;
@@ -57,15 +57,15 @@ const OverallMood: React.FC<Props> = ({
       setFeatures(overallFeatures);
     }
   }, [overallFeatures]);
-
+  
   const meanings = {
     Acousticness: " A measure from 0.0 to 1.0 of whether the track is acoustic.",
     Danceability:
       "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
     Energy:
       "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy.",
-    Liveness:
-      "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live.",
+    Instrumentalness:
+      "Predicts whether a track contains no vocals. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content.",
     Valence:
       "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
   };

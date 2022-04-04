@@ -32,7 +32,7 @@ interface GenreCount {
   [genre: string]: number;
 }
 
-type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
+type Features = "Acousticness" | "Danceability" | "Energy" | "Instrumentalness" | "Valence";
 
 const PlaylistAnalysis: React.FC<Props> = ({
   trackInfo,
@@ -138,7 +138,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
       ["Acousticness"],
       ["Danceability"],
       ["Energy"],
-      ["Liveness"],
+      ["Instrumentalness"],
       ["Valence"],
     ];
     for (let x of audioFeatures) {
@@ -147,7 +147,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
         features[0] += x.acousticness;
         features[1] += x.danceability;
         features[2] += x.energy;
-        features[3] += x.liveness;
+        features[3] += x.instrumentalness;
         features[4] += x.valence;
       } catch {
         total--;

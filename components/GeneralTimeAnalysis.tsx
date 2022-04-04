@@ -14,7 +14,7 @@ interface Props {
   artistGenres: { [id: string]: string[] };
 }
 
-type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
+type Features = "Acousticness" | "Danceability" | "Energy" | "Instrumentalness" | "Valence";
 
 const GeneralTimeAnalysis: React.FC<Props> = ({
   audioFeaturesDict,

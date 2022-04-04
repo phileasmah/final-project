@@ -11,7 +11,7 @@ interface Props {
   artistGenres: { [id: string]: string[] };
 }
 
-type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
+type Features = "Acousticness" | "Danceability" | "Energy" | "Instrumentalness" | "Valence";
 
 const TracksTransform: React.FC<Props> = ({ audioFeaturesDict, time, tracks, rootMood, artistGenres }) => {
   const [yearlyTracks, setYearlyTracks] = useState<[] | ItemsEntity[]>([]);

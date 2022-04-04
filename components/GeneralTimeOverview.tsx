@@ -4,7 +4,7 @@ import { ItemsEntity } from "../types/PlaylistType";
 import GeneralTimeAnalysis from "./GeneralTimeAnalysis";
 import TracksTransform from "./TracksTransform";
 
-type Features = "Acousticness" | "Danceability" | "Energy" | "Liveness" | "Valence";
+type Features = "Acousticness" | "Danceability" | "Energy" | "Instrumentalness" | "Valence";
 
 interface Props {
   audioFeaturesDict: { [songId: string]: AudioFeature };
