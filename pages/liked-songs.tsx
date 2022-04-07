@@ -9,7 +9,6 @@ import { ApiContextProvider } from "../types/ApiContextProvider";
 import { AudioFeature, AudioFeatures } from "../types/AudioFeatues";
 import { ItemsEntity, LikedSongs } from "../types/PlaylistType";
 
-
 const LikedSongs: React.FC = () => {
   const router = useRouter();
   const [trackInfo, setTrackInfo] = useState<ItemsEntity[]>([]);
@@ -62,12 +61,15 @@ const LikedSongs: React.FC = () => {
 
     const getPlaylist = async (id: string) => {
       try {
-        const response = await axios.get<LikedSongs>(`https://api.spotify.com/v1/me/tracks?limit=50`, {
-          headers: {
-            Authorization:
-              "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
-          },
-        });
+        const response = await axios.get<LikedSongs>(
+          `https://api.spotify.com/v1/me/tracks?limit=50`,
+          {
+            headers: {
+              Authorization:
+                "Bearer " + `${session ? session.user.accessToken : clientToken?.access_token}`,
+            },
+          }
+        );
         if (response.data.items) {
           setTrackInfo((p) => p.concat(response.data.items));
           setPlaylistInfo(response.data);
@@ -88,14 +90,15 @@ const LikedSongs: React.FC = () => {
       setPrevSession(session.user.accessToken);
     }
   }, [router, loading, session, clientToken, finish]);
-
   return (
     <div>
       {unauthorized ? (
         <div>You need permission to access this album</div>
       ) : isLoading ? (
-        <div>Loading Songs...{audioFeatures.length} / {playlistInfo?.total}</div>
-      ) : audioFeatures && playlistInfo ? (
+        <div>
+          Loading Songs...{audioFeatures.length} / {playlistInfo?.total}
+        </div>
+      ) : audioFeatures && playlistInfo && trackInfo.length !== 0 ? (
         <PlaylistAnalysis
           trackInfo={trackInfo}
           audioFeatures={audioFeatures}
@@ -104,7 +107,7 @@ const LikedSongs: React.FC = () => {
           session={session ? session.user.accessToken : null}
         />
       ) : (
-        <div> This playlist is empty</div>
+        <div>This playlist is empty</div>
       )}
     </div>
   );
