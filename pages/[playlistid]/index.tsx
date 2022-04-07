@@ -29,8 +29,7 @@ const PlaylistProfile: React.FC = () => {
     const getTracksRec = async (url: string) => {
       const response = await axios.get<Tracks>(url, {
         headers: {
-          Authorization:
-            "Bearer " + `${session ? session.user.accessToken : "error"}`,
+          Authorization: "Bearer " + `${session ? session.user.accessToken : "error"}`,
         },
       });
       if (response.data.items) {
@@ -50,8 +49,7 @@ const PlaylistProfile: React.FC = () => {
         `https://api.spotify.com/v1/audio-features?ids=${ids}`,
         {
           headers: {
-            Authorization:
-              "Bearer " + `${session ? session.user.accessToken : "error"}`,
+            Authorization: "Bearer " + `${session ? session.user.accessToken : "error"}`,
           },
         }
       );
@@ -63,8 +61,7 @@ const PlaylistProfile: React.FC = () => {
       try {
         const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${id}`, {
           headers: {
-            Authorization:
-              "Bearer " + `${session ? session.user.accessToken : "error"}`,
+            Authorization: "Bearer " + `${session ? session.user.accessToken : "error"}`,
           },
         });
         if (response.data.tracks.items) {
@@ -93,8 +90,10 @@ const PlaylistProfile: React.FC = () => {
       {unauthorized ? (
         <div>You need permission to access this album or this album doesnt exist</div>
       ) : isLoading ? (
-        <div>
-          Loading Songs...{audioFeatures.length} / {playlistInfo?.tracks.total}
+        <div className="flex justify-center items-center">
+          <div className="mt-32 text-xl text-text font-semibold">
+            Loading Songs... {audioFeatures.length} / {playlistInfo?.tracks.total}
+          </div>
         </div>
       ) : audioFeatures && playlistInfo ? (
         <PlaylistAnalysis
