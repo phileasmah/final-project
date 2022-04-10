@@ -1,6 +1,5 @@
 module.exports = {
-  mode: "jit",
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     boxShadow: {
@@ -85,17 +84,6 @@ module.exports = {
       height: {
         "pic": "260px"
       }
-    },
-  },
-  variants: {
-    extend: {
-      padding: ["hover", "focus"],
-      borderRadius: ["hover", "focus"],
-      margin: ["focus"],
-      width: ["focus"],
-      height: ["focus"],
-      overflow: ["hover"],
-      scale: ["group-focus"],
     },
   },
   plugins: [],

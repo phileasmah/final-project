@@ -12,6 +12,7 @@ const GenreColour: React.FC<Props> = ({ genre, quantity }) => {
   useEffect(() => {
     if (genre.indexOf("soul") > -1 || genre.indexOf("r&b") > -1) {
       setColour("soul");
+      setTextColour("darkgrey")
     } else if (genre.indexOf("country") > -1) {
       setColour("country");
       setTextColour("darkgrey")
@@ -47,7 +48,7 @@ const GenreColour: React.FC<Props> = ({ genre, quantity }) => {
 
   return (
     <div className="my-2">
-      <span className={`${colour != "none" ? `bg-${colour}` : "border border-red-700"} rounded-full text-center px-3 py-1.5 text-${textColour} font-semibold`}>{genre}</span>
+      <span className={`${colour != "none" ? `bg-${colour}` : "border border-lightgrey2"} rounded-full text-center px-3 py-1.5 text-${textColour} font-semibold`}>{genre}</span>
       {quantity && <span className="ml-2 font-semibold">{quantity}</span>}
     </div>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ItemsEntity } from "../types/PlaylistType";
+import GenreColour from "./GenreColour";
 
 interface Props {
   tracks: ItemsEntity[];
@@ -67,8 +68,8 @@ const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
             <span className="text-text">{artist}:</span>
             <ul className="grid grid-cols-2">
               {artistGenres[artist].map((genre) => (
-                <li key={artist + genre} className="list-disc ml-5">
-                  {genre}
+                <li key={artist + genre}>
+                  <GenreColour genre={genre} />
                 </li>
               ))}
             </ul>
@@ -80,7 +81,7 @@ const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
         <ul className="grid grid-cols-2">
           {sortedGenreCount.map((genre) => (
             <li key={`${genre} ${unique}`}>
-              <span className="">{genre}</span> - <span className="text-text">{genreCount[genre]}</span>
+              <GenreColour genre={genre} quantity={genreCount[genre]} />
             </li>
           ))}
         </ul>

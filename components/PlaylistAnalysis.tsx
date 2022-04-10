@@ -255,7 +255,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
               </div>
               <div className="mb-6 lg:mb-0">
                 <span className="text-text font-semibold text-xl">Top Genres:</span>
-                <ul className="grid grid-cols-2 gap-x-3">
+                <ul className="grid grid-cols-2 gap-x-3 auto-cols-max">
                   {topGenres.map((genre) => (
                     <li key={genre}>
                       <GenreColour genre={genre} quantity={genreCount[genre]} />{" "}
@@ -271,8 +271,8 @@ const PlaylistAnalysis: React.FC<Props> = ({
                   <span className="text-text">{artist}:</span>
                   <ul className="grid grid-cols-2 gap-x-3">
                     {artistGenres[artist].map((genre) => (
-                      <li key={artist + genre} className="list-disc ml-5">
-                        {genre}
+                      <li key={artist + genre}>
+                        <GenreColour genre={genre} />
                       </li>
                     ))}
                   </ul>
