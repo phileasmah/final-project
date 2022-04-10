@@ -27,7 +27,6 @@ const GeneralTimeOverview: React.FC<Props> = ({
   const [yearPos, setYearPos] = useState(0);
   const [years, setYears] = useState<string[]>([]);
   const [months, setMonths] = useState<string[][]>([]);
-  const [fullLoad, setFullLoad] = useState(false);
   const [filterBy, setFilterBy] = useState(true);
 
   useEffect(() => {
@@ -38,41 +37,16 @@ const GeneralTimeOverview: React.FC<Props> = ({
     }
     setYears(tmpYears);
     setMonths(tmpMonths);
-    if (2 >= tmpMonths[0].length) {
-      setFullLoad(true);
-    }
   }, [addDate]);
-
-  const handleLoadMore = () => {
-    setMonthPos((monthPos) => monthPos + 2);
-    if (monthPos + 2 >= months[yearPos].length - 1) {
-      setFullLoad(true);
-    }
-  };
-
-  const handleLoadAll = () => {
-    setMonthPos(11);
-    setFullLoad(true);
-  };
 
   const handlePrev = () => {
     setYearPos((yearPos) => yearPos - 1);
     setMonthPos(2);
-    if (2 >= months[yearPos - 1].length) {
-      setFullLoad(true);
-    } else {
-      setFullLoad(false);
-    }
   };
 
   const handleNext = () => {
     setYearPos((yearPos) => yearPos + 1);
     setMonthPos(2);
-    if (2 >= months[yearPos + 1].length) {
-      setFullLoad(true);
-    } else {
-      setFullLoad(false);
-    }
   };
 
   const handleSwitch = () => {
@@ -144,22 +118,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
           )}
         </div>
       )}
-      {filterBy && !fullLoad && (
-        <div className="flex align-middle justify-center gap-x-5 my-6">
-          <button
-            onClick={handleLoadMore}
-            className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800"
-          >
-            Load More
-          </button>
-          <button
-            onClick={handleLoadAll}
-            className="bg-green-900 rounded-md w-36 py-2 text-text duration-150 hover:rounded-2xl hover:bg-green-800"
-          >
-            Load All
-          </button>
-        </div>
-      )}
+
       <div className="flex my-8">
         {yearPos > 0 && (
           <button onClick={handlePrev}>

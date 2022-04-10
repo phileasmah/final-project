@@ -78,7 +78,7 @@ const OverallMood: React.FC<Props> = ({
             <div className="text-lg font-medium">
               <div
                 className={`inline-block font-semibold rounded-full mr-2 ${
-                  rootMood ? "bg-darkgrey text-white" : "bg-spotify1 text-white mb-2 px-3 py-0.5"
+                  rootMood ? "bg-darkgrey text-white" : "bg-green-200 text-darkgrey mb-2 px-3 py-0.5"
                 }`}
               >
                 {feature[0]}
@@ -111,7 +111,7 @@ const OverallMood: React.FC<Props> = ({
                         ></div>
                       </div>
                       <div className="text-lg font-medium">
-                        <div className="inline-block text-spotify1 font-semibold rounded-full mr-2">
+                        <div className="inline-block text-green-600 font-semibold rounded-full mr-2">
                           Overall {feature[0]}
                         </div>
                         <span className="text-text">{rootMood[idx][1]}</span>

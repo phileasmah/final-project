@@ -123,7 +123,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setTopArtists(
       Object.keys(tmpArtists)
         .sort((a, b) => tmpArtists[b] - tmpArtists[a])
-        .slice(0, 5)
+        .slice(0, 6)
     );
     setAddDate(tmpDict);
     setArtists(tmpArtists);
@@ -160,7 +160,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setAudioFeaturesDict(tmpAudioFeaturesDict);
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
-  console.log(artists);
+
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
       <h1 className="text-center text-4xl my-8">
@@ -200,7 +200,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
                 with <b>{Object.keys(artists).length}</b> artist
                 {Object.keys(artists).length > 1 && "s"}
               </div>
-              <div className="text-white flex align-middle flex-wrap font-semibold gap-x-2.5">
+              <div className="text-white flex align-middle flex-wrap font-semibold gap-x-2.5 mt-2">
                 <div className="my-2">
                   <span className="bg-folk rounded-full text-center px-3 py-1.5">Folk</span>
                 </div>
@@ -244,17 +244,19 @@ const PlaylistAnalysis: React.FC<Props> = ({
             </div>
             <div>
               <div className="mb-6">
-                <span className="text-text font-semibold text-xl">Top Artists:</span>
-                <ul>
+                <span className="text-text font-semibold text-2xl">Top Artists</span>
+                <hr className="my-1.5 border-lightgrey2" />
+                <ul className="grid grid-cols-2">
                   {topArtists.map((artist) => (
                     <li key={artist}>
-                      <span className="text-text">{artist}</span> - {artists[artist]}
+                      <span className="text-text font-semibold">{artist}</span> - {artists[artist]}
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="mb-6 lg:mb-0">
-                <span className="text-text font-semibold text-xl">Top Genres:</span>
+                <span className="text-text font-semibold text-2xl">Top Genres</span>
+                <hr className="my-1.5 border-lightgrey2" />
                 <ul className="grid grid-cols-2 gap-x-3 auto-cols-max">
                   {topGenres.map((genre) => (
                     <li key={genre}>
@@ -265,10 +267,11 @@ const PlaylistAnalysis: React.FC<Props> = ({
               </div>
             </div>
             <div>
-              <span className="text-text font-semibold text-xl">Genres of Top Artists:</span>
+              <span className="text-text font-semibold text-2xl">Genres of Top Artists</span>
+              <hr className="my-1.5 border-lightgrey2" />
               {topArtists.map((artist) => (
                 <div key={`${artist} genre`} className="mb-3">
-                  <span className="text-text">{artist}:</span>
+                  <span className="text-text font-semibold">{artist}:</span>
                   <ul className="grid grid-cols-2 gap-x-3">
                     {artistGenres[artist].map((genre) => (
                       <li key={artist + genre}>

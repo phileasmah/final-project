@@ -1,6 +1,5 @@
 module.exports = {
   content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     boxShadow: {
       sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
@@ -47,7 +46,7 @@ module.exports = {
         jazz: "#A836F6",
         rock: "#8E1906",
         metal: "#928F98",
-        classical: "#BBC7D4",
+        classical: "#FBDD47",
         soul: "#E2AFD1",
         indie: "#F9E6C1"
       },

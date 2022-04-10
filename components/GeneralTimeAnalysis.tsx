@@ -53,9 +53,9 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
         <div className="flex flex-col mx-auto mt-5">
           {month || month == 0 ? (
             <div>
-              <div className="inline-block  text-white font-semibold text-2xl rounded-xl mb-2">
+              <div className="inline-block  text-white font-semibold text-3xl rounded-xl mb-2">
                 {months[month] + " " + year}
-                <hr className="border-lightgrey3"/>
+                <hr className="border-lightgrey3" />
               </div>
             </div>
           ) : (
@@ -68,8 +68,9 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               </div>
 
               <div>
-                <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0 text-3xl">
-                  Mood for this period:
+                <div className="text-text font-semibold -mb-2 mt-6 lg:mt-0 text-2xl">
+                  Mood for this period
+                  <hr className="my-1.5 border-lightgrey2" />
                 </div>
                 <OverallMood
                   audioFeaturesDict={audioFeaturesDict}
