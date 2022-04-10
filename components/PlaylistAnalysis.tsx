@@ -6,6 +6,7 @@ import { Artist } from "../types/Artist";
 import { AudioFeature } from "../types/AudioFeatues";
 import { ItemsEntity, LikedSongs, Playlist } from "../types/PlaylistType";
 import GeneralTimeOverview from "./GeneralTimeOverview";
+import GenreColour from "./GenreColour";
 import OverallMood from "./OverallMood";
 
 interface Props {
@@ -159,7 +160,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
     setAudioFeaturesDict(tmpAudioFeaturesDict);
     setAvgAudioFeatures(tmpFeaturesAvg as [Features, string][]);
   }, [audioFeatures]);
-
+  console.log(artists);
   return (
     <div className="flex flex-col align-middle justify-center max-w-8xl mx-auto">
       <h1 className="text-center text-4xl my-8">
@@ -196,7 +197,49 @@ const PlaylistAnalysis: React.FC<Props> = ({
                 {"public" in playlistInfo
                   ? playlistInfo.tracks.total > 1 && "s"
                   : playlistInfo.total > 1 && "s"}{" "}
-                with <b>{topArtists.length}</b> artist{topArtists.length > 1 && "s"}
+                with <b>{Object.keys(artists).length}</b> artist
+                {Object.keys(artists).length > 1 && "s"}
+              </div>
+              <div className="text-white flex align-middle flex-wrap font-semibold gap-x-2.5">
+                <div className="my-2">
+                  <span className="bg-folk rounded-full text-center px-3 py-1.5">Folk</span>
+                </div>
+                <div className="my-2 text-darkgrey ">
+                  <span className="bg-country rounded-full text-center px-3 py-1.5">Country</span>
+                </div>
+                <div className="my-2">
+                  <span className="bg-rock rounded-full text-center px-3 py-1.5"> Rock</span>
+                </div>
+                <div className="my-2 text-darkgrey">
+                  <span className="bg-indie rounded-full text-center px-3 py-1.5">
+                    Indie, Alternative
+                  </span>
+                </div>
+                <div className="my-2">
+                  <span className="bg-pop rounded-full text-center px-3 py-1.5">Pop</span>
+                </div>
+                <div className="my-2 text-darkgrey">
+                  <span className="bg-rap rounded-full text-center px-3 py-1.5"> Rap, Hip Hop</span>
+                </div>
+                <div className="my-2 text-darkgrey">
+                  <span className="bg-metal rounded-full text-center px-3 py-1.5"> Metal</span>
+                </div>
+                <div className="my-2 ">
+                  <span className="bg-electronic rounded-full text-center px-3 py-1.5">
+                    Electronic, EDM, House
+                  </span>
+                </div>
+                <div className="my-2 text-darkgrey">
+                  <span className="bg-classical rounded-full text-center px-3 py-1.5">
+                    Classical
+                  </span>
+                </div>
+                <div className="my-2">
+                  <span className="bg-jazz rounded-full text-center px-3 py-1.5"> Jazz</span>
+                </div>
+                <div className="my-2 text-darkgrey">
+                  <span className="bg-soul rounded-full text-center px-3 py-1.5"> Soul, R&B</span>
+                </div>
               </div>
             </div>
             <div>
@@ -215,8 +258,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
                 <ul className="grid grid-cols-2 gap-x-3">
                   {topGenres.map((genre) => (
                     <li key={genre}>
-                      <span className="">{genre}</span> -{" "}
-                      <span className="text-text">{genreCount[genre]}</span>
+                      <GenreColour genre={genre} quantity={genreCount[genre]} />{" "}
                     </li>
                   ))}
                 </ul>

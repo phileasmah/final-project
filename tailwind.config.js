@@ -40,6 +40,17 @@ module.exports = {
         spotify1: "#1AA64B",
         spotify2: "#1DB954",
         spotify3: "#33C065",
+        pop: "#217BE3",
+        country: "#EBE7E9",
+        electronic: "#E86D38",
+        folk: "#8C554B",
+        rap: "#9ACFC7",
+        jazz: "#A836F6",
+        rock: "#8E1906",
+        metal: "#928F98",
+        classical: "#BBC7D4",
+        soul: "#E2AFD1",
+        indie: "#F9E6C1"
       },
       boxShadow: {
         custom:

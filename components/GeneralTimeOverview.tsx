@@ -121,7 +121,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
           <hr className="mt-3 mb-2 border-lightgrey2" />
           {filterBy ? (
             months[yearPos].slice(0, monthPos + 1).map((month) => (
-              <div key={month + years[yearPos] + playlistId} className="rounded-3xl hover:bg-lightgrey3 duration-150">
+              <div key={month + years[yearPos] + playlistId}>
                 <GeneralTimeAnalysis
                   tracks={addDate[years[yearPos]][month]}
                   time={years[yearPos] + "," + month}

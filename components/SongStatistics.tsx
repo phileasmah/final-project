@@ -67,7 +67,7 @@ const SongStatistics: React.FC<Props> = ({ tracks, unique, artistGenres }) => {
             <span className="text-text">{artist}:</span>
             <ul className="grid grid-cols-2">
               {artistGenres[artist].map((genre) => (
-                <li key={artist + genre} className="list-disc ml-5  ">
+                <li key={artist + genre} className="list-disc ml-5">
                   {genre}
                 </li>
               ))}

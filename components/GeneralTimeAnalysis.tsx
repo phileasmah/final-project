@@ -55,7 +55,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
             <div>
               <div className="inline-block  text-white font-semibold text-2xl rounded-xl mb-2">
                 {months[month] + " " + year}
-                <hr className="border-lightgrey3" />
+                <hr className="border-lightgrey3"/>
               </div>
             </div>
           ) : (
