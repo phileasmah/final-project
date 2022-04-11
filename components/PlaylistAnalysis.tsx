@@ -257,9 +257,9 @@ const PlaylistAnalysis: React.FC<Props> = ({
               <div className="mb-6 lg:mb-0">
                 <span className="text-text font-semibold text-2xl">Top Genres</span>
                 <hr className="my-1.5 border-lightgrey2" />
-                <ul className="grid grid-cols-2 gap-x-3 auto-cols-max">
+                <ul className="grid grid-cols-2 gap-x-3">
                   {topGenres.map((genre) => (
-                    <li key={genre}>
+                    <li key={genre} className="w-max">
                       <GenreColour genre={genre} quantity={genreCount[genre]} />{" "}
                     </li>
                   ))}
