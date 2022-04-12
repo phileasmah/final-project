@@ -81,9 +81,11 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          <div className="text-lg">
-            You added <span className="text-text font-semibold">{tracks.length}</span> songs this
-            period:
+          <div className="text-lg mt-2 mb-3">
+            <span className="bg-green-200 py-2 px-4 rounded-full text-darkgrey font-semibold">
+              You added <span className="">{tracks.length}</span> songs this
+              period:
+            </span>
           </div>
           <div className="border border-lightgrey2 rounded-lg mb-6">
             <div className="grid grid-cols-10 py-3 border-b font-semibold shadow-custom border-lightgrey2 text-text">
@@ -94,9 +96,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               <div className="hidden sm:block col-span-4 my-auto mr-3 md:mr-2 ml-2">
                 <span>Album</span>
               </div>
-              <div className="col-span-3 sm:col-span-1 my-auto ml-1 sm:-ml-2">
-                Date Added
-              </div>
+              <div className="col-span-3 sm:col-span-1 my-auto ml-1 sm:-ml-2">Date Added</div>
             </div>
             <ul className="overflow-auto max-h-72">
               {tracks.map((track, idx) => (
