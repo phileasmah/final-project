@@ -82,11 +82,11 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
             </div>
           </div>
           <div className="text-lg">
-            You added <span className="text-text font-medium">{tracks.length}</span> songs this
+            You added <span className="text-text font-semibold">{tracks.length}</span> songs this
             period:
           </div>
-          <div className="border border-darkgrey2 rounded-lg">
-            <div className="grid grid-cols-10 py-3 border-b shadow-custom border-darkgrey2 font-medium">
+          <div className="border border-lightgrey2 rounded-lg mb-6">
+            <div className="grid grid-cols-10 py-3 border-b font-semibold shadow-custom border-lightgrey2 text-text">
               <span className="col-span-1 my-auto ml-3 lg:ml-5">#</span>
               <div className="col-span-6 sm:col-span-4 my-auto mr-3 md:mr-2 ml-2">
                 <span>Title</span>
@@ -94,7 +94,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               <div className="hidden sm:block col-span-4 my-auto mr-3 md:mr-2 ml-2">
                 <span>Album</span>
               </div>
-              <div className="col-span-3 sm:col-span-1 my-auto font-medium ml-1 sm:-ml-2">
+              <div className="col-span-3 sm:col-span-1 my-auto ml-1 sm:-ml-2">
                 Date Added
               </div>
             </div>
@@ -102,8 +102,8 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               {tracks.map((track, idx) => (
                 <li
                   key={track.track.id + idx + time}
-                  className={`grid grid-cols-10 py-3 border-r border-lightgrey2 ${
-                    idx % 2 !== 0 && "border"
+                  className={`grid grid-cols-10 py-3 border-lightgrey2 ${
+                    idx % 2 !== 0 && "border-y"
                   }`}
                 >
                   <span className="col-span-1 my-auto ml-3 lg:ml-5">{idx + 1}</span>

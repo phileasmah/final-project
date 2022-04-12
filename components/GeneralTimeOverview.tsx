@@ -119,7 +119,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
         </div>
       )}
 
-      <div className="flex my-8">
+      <div className="flex mt-3 mb-10">
         {yearPos > 0 && (
           <button onClick={handlePrev}>
             {" "}
