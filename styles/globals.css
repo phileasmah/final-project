@@ -23,6 +23,9 @@ b {
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
+}
+
+div > ::-webkit-scrollbar {
   border-style: solid;
   border-left-width: 1px;
   border-right-width: 0px;
