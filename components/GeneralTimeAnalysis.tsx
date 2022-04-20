@@ -25,6 +25,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
 }) => {
   const [month, setMonth] = useState<number | undefined>();
   const [year, setYear] = useState("");
+  const [expand, setExpand] = useState(false);
 
   const months = [
     "Jan",
@@ -81,12 +82,22 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          <div className="text-lg mt-2 mb-3">
-            <span className="bg-green-200 py-2 px-4 rounded-full text-darkgrey font-semibold">
-              You added <span className="">{tracks.length}</span> songs this
-              period:
+          <div className="text-lg mt-3 mb-3 flex justify-between">
+            <span className="">
+              You added{" "}
+              <span className="bg-green-200 py-1.5 px-3 rounded-full text-darkgrey font-semibold m">
+                {tracks.length} songs
+              </span>{" "}
+              this period:
             </span>
+            <button
+              onClick={() => setExpand(!expand)}
+              className="py-1 px-4 bg-lightblue text-darkgrey font-semibold rounded-lg hover:rounded-full text-base duration-200"
+            >
+              {expand ? "Show less..." : "Show more..."}
+            </button>
           </div>
+
           <div className="border border-lightgrey2 rounded-lg mb-6">
             <div className="grid grid-cols-10 py-3 border-b font-semibold shadow-custom border-lightgrey2 text-text">
               <span className="col-span-1 my-auto ml-3 lg:ml-5">#</span>
@@ -98,7 +109,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               </div>
               <div className="col-span-3 sm:col-span-1 my-auto ml-1 sm:-ml-2">Date Added</div>
             </div>
-            <ul className="overflow-auto max-h-72">
+            <ul className={`overflow-auto ${expand ? "max-h-[33rem]" : "max-h-72"} duration-200`}>
               {tracks.map((track, idx) => (
                 <li
                   key={track.track.id + idx + time}

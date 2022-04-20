@@ -64,7 +64,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
           <span className="font-semibold mr-2">Sorting by:</span>
           <button
             onClick={handleSwitch}
-            className="bg-lightblue text-darkgrey px-3 py-1 rounded-2xl font-semibold"
+            className="bg-lightblue text-darkgrey px-3 py-1 rounded-lg hover:rounded-full font-semibold"
           >
             {filterBy ? "Monthly" : "Yearly"}
           </button>
