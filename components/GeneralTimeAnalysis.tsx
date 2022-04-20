@@ -92,7 +92,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
             </span>
             <button
               onClick={() => setExpand(!expand)}
-              className="py-1 px-4 bg-lightblue text-darkgrey font-semibold rounded-lg hover:rounded-full text-base duration-200"
+              className={`${tracks.length <= 4 && "hidden"} py-1 px-4 bg-lightblue text-darkgrey font-semibold rounded-lg hover:rounded-full text-base duration-200`}
             >
               {expand ? "Show less..." : "Show more..."}
             </button>
