@@ -174,71 +174,79 @@ const PlaylistAnalysis: React.FC<Props> = ({
         topGenres && (
           <div className="w-10/12 mx-auto flex flex-col lg:flex-row justify-between">
             <div className="w-70 mx-auto lg:mx-0">
-              {"public" in playlistInfo && playlistInfo.images ? (
-                <Image
-                  src={playlistInfo.images[0].url}
-                  alt={playlistInfo.name + " playlist art"}
-                  width={260}
-                  height={260}
-                  className="rounded-md"
-                />
-              ) : (
-                <Image
-                  src={defaultPic}
-                  alt={"default playlist art"}
-                  width={260}
-                  height={260}
-                  className="rounded-md"
-                />
-              )}
-              <div className="text-lg">
-                <b>{"public" in playlistInfo ? playlistInfo.tracks.total : playlistInfo.total}</b>{" "}
-                song
-                {"public" in playlistInfo
-                  ? playlistInfo.tracks.total > 1 && "s"
-                  : playlistInfo.total > 1 && "s"}{" "}
-                with <b>{Object.keys(artists).length}</b> artist
-                {Object.keys(artists).length > 1 && "s"}
+              <div className="ml-1">
+                {"public" in playlistInfo && playlistInfo.images ? (
+                  <Image
+                    src={playlistInfo.images[0].url}
+                    alt={playlistInfo.name + " playlist art"}
+                    width={271}
+                    height={271}
+                    className="rounded-md"
+                  />
+                ) : (
+                  <Image
+                    src={defaultPic}
+                    alt={"default playlist art"}
+                    width={271}
+                    height={271}
+                    className="rounded-md"
+                  />
+                )}
+                <div className="text-lg">
+                  <b>{"public" in playlistInfo ? playlistInfo.tracks.total : playlistInfo.total}</b>{" "}
+                  song
+                  {"public" in playlistInfo
+                    ? playlistInfo.tracks.total > 1 && "s"
+                    : playlistInfo.total > 1 && "s"}{" "}
+                  with <b>{Object.keys(artists).length}</b> artist
+                  {Object.keys(artists).length > 1 && "s"}
+                </div>
               </div>
-              <div className="text-white flex align-middle flex-wrap font-semibold gap-x-2.5 mt-2">
-                <div className="my-2">
-                  <span className="bg-folk rounded-full text-center px-3 py-1.5">Folk</span>
-                </div>
-                <div className="my-2 text-darkgrey ">
-                  <span className="bg-country rounded-full text-center px-3 py-1.5">Country</span>
-                </div>
-                <div className="my-2">
-                  <span className="bg-rock rounded-full text-center px-3 py-1.5"> Rock</span>
-                </div>
-                <div className="my-2 text-darkgrey">
-                  <span className="bg-indie rounded-full text-center px-3 py-1.5">
-                    Indie, Alternative
-                  </span>
-                </div>
-                <div className="my-2">
-                  <span className="bg-pop rounded-full text-center px-3 py-1.5">Pop</span>
-                </div>
-                <div className="my-2 text-darkgrey">
-                  <span className="bg-rap rounded-full text-center px-3 py-1.5"> Rap, Hip Hop</span>
-                </div>
-                <div className="my-2 text-darkgrey">
-                  <span className="bg-metal rounded-full text-center px-3 py-1.5"> Metal</span>
-                </div>
-                <div className="my-2 ">
-                  <span className="bg-electronic rounded-full text-center px-3 py-1.5">
-                    Electronic, EDM, House
-                  </span>
-                </div>
-                <div className="my-2 text-darkgrey">
-                  <span className="bg-classical rounded-full text-center px-3 py-1.5">
-                    Classical
-                  </span>
-                </div>
-                <div className="my-2">
-                  <span className="bg-jazz rounded-full text-center px-3 py-1.5"> Jazz</span>
-                </div>
-                <div className="my-2 text-darkgrey">
-                  <span className="bg-soul rounded-full text-center px-3 py-1.5"> Soul, R&B</span>
+              <div className="bg-darkgrey3 rounded-3xl py-4 pl-6 mt-2">
+                <div className="font-semibold text-text text-2xl mb-2">Genre Colours</div>
+                <div className="text-white flex align-middle flex-wrap font-semibold gap-x-2.5">
+                  <div className="my-2">
+                    <span className="bg-folk rounded-full text-center px-3 py-1.5">Folk</span>
+                  </div>
+                  <div className="my-2 text-darkgrey ">
+                    <span className="bg-country rounded-full text-center px-3 py-1.5">Country</span>
+                  </div>
+                  <div className="my-2">
+                    <span className="bg-rock rounded-full text-center px-3 py-1.5"> Rock</span>
+                  </div>
+                  <div className="my-2 text-darkgrey">
+                    <span className="bg-indie rounded-full text-center px-3 py-1.5">
+                      Indie, Alternative
+                    </span>
+                  </div>
+                  <div className="my-2">
+                    <span className="bg-pop rounded-full text-center px-3 py-1.5">Pop</span>
+                  </div>
+                  <div className="my-2 text-darkgrey">
+                    <span className="bg-rap rounded-full text-center px-3 py-1.5">
+                      {" "}
+                      Rap, Hip Hop
+                    </span>
+                  </div>
+                  <div className="my-2 text-darkgrey">
+                    <span className="bg-metal rounded-full text-center px-3 py-1.5"> Metal</span>
+                  </div>
+                  <div className="my-2 ">
+                    <span className="bg-electronic rounded-full text-center px-3 py-1.5">
+                      Electronic, EDM, House
+                    </span>
+                  </div>
+                  <div className="my-2 text-darkgrey">
+                    <span className="bg-classical rounded-full text-center px-3 py-1.5">
+                      Classical
+                    </span>
+                  </div>
+                  <div className="my-2">
+                    <span className="bg-jazz rounded-full text-center px-3 py-1.5"> Jazz</span>
+                  </div>
+                  <div className="my-2 text-darkgrey">
+                    <span className="bg-soul rounded-full text-center px-3 py-1.5"> Soul, R&B</span>
+                  </div>
                 </div>
               </div>
             </div>
