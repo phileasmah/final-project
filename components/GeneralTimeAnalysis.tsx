@@ -109,7 +109,7 @@ const GeneralTimeAnalysis: React.FC<Props> = ({
               </div>
               <div className="col-span-3 sm:col-span-1 my-auto ml-1 sm:-ml-2">Date Added</div>
             </div>
-            <ul className={`overflow-auto ${expand ? "max-h-[33rem]" : "max-h-72"} duration-200`}>
+            <ul className={`overflow-auto ${expand ? "max-h-[37rem]" : "max-h-72"} duration-200`}>
               {tracks.map((track, idx) => (
                 <li
                   key={track.track.id + idx + time}
