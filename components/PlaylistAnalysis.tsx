@@ -172,7 +172,7 @@ const PlaylistAnalysis: React.FC<Props> = ({
         Object.keys(artists).length === Object.keys(artistGenres).length &&
         genreCount &&
         topGenres && (
-          <div className="w-10/12 mx-auto flex flex-col lg:flex-row justify-between">
+          <div className="w-11/12 xl:w-10/12 mx-auto flex flex-col lg:flex-row justify-between">
             <div className="w-70 mx-auto lg:mx-0">
               <div className="ml-1">
                 {"public" in playlistInfo && playlistInfo.images ? (
