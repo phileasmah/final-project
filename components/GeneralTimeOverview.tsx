@@ -27,7 +27,7 @@ const GeneralTimeOverview: React.FC<Props> = ({
   const [yearPos, setYearPos] = useState(0);
   const [years, setYears] = useState<string[]>([]);
   const [months, setMonths] = useState<string[][]>([]);
-  const [filterBy, setFilterBy] = useState(true);
+  const [filterBy, setFilterBy] = useState(false);
 
   useEffect(() => {
     const tmpYears = Object.keys(addDate).reverse();
